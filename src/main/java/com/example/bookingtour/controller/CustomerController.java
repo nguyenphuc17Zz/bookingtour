@@ -17,5 +17,8 @@ public class CustomerController {
     public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
-
+    @GetMapping("/admin/login")
+    public String showLoginPage(){
+        return "admin/login.html";
+    }
 }
