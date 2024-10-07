@@ -30,9 +30,9 @@
                 <img th:src="@{/css/authentication/images/img-01.png}" alt="IMG">
             </div>
 
-            <form class="login100-form validate-form" th:action="@{/admin/login/send}" th:object="${admin}" method="post">
+            <form class="login100-form validate-form" th:action="@{/customer/login/send}" th:object="${customer}" method="post">
 					<span class="login100-form-title">
-						Admin Login
+						Customer Login
 					</span>
 
                 <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
@@ -65,12 +65,12 @@
 						<span class="txt1">
 							Forgot
 						</span>
-                    <a class="txt2" th:href="@{/admin/forgotpass}">
-                         Password?
+                    <a class="txt2" th:href="@{/customer/forgotpass}">
+                        Password?
                     </a>
                 </div>
                 <div class="text-center p-t-136">
-                    <a class="txt2" href="#">
+                    <a class="txt2" th:href="@{/customer/register}">
                         Create your Account
                         <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                     </a>

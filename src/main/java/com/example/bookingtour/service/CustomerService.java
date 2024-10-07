@@ -11,8 +11,13 @@ import java.util.List;
 public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public Customer findByEmail(String email){
+        return customerRepository.findCustomerByEmail(email);
     }
-
+    public Customer findByPhoneNumber(String phoneNumber){
+        return customerRepository.findCustomerByPhoneNumber(phoneNumber);
+    }
+    public void add_update(Customer c){
+        customerRepository.save(c);
+    }
 }

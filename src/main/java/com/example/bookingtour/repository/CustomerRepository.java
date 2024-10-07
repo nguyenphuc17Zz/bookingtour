@@ -2,9 +2,17 @@ package com.example.bookingtour.repository;
 
 import com.example.bookingtour.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,Integer> {
+    @Query(value = "SELECT * FROM customers WHERE email = :email", nativeQuery = true)
+    Customer findCustomerByEmail(@Param("email") String email);
+
+    @Query(value = "SELECT * FROM customers WHERE phone_number = :phoneNumber", nativeQuery = true)
+    Customer findCustomerByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
 
 }

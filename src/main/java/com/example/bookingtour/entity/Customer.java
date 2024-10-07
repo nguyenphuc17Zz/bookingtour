@@ -1,27 +1,27 @@
 package com.example.bookingtour.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "customers")
 public class Customer {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customer_id;
     private String name;
     private  String email;
     private  String phone_number;
     private  String password;
     private String address;
-    private Date date_joined;
+    private LocalDateTime date_joined;
 
     public Customer() {
     }
 
-    public Customer(int customer_id, String name, String email, String phone_number, String password, Date date_joined, String address) {
+    public Customer(int customer_id, String name, String email, String phone_number, String password, LocalDateTime date_joined, String address) {
         this.customer_id = customer_id;
         this.name = name;
         this.email = email;
@@ -29,6 +29,15 @@ public class Customer {
         this.password = password;
         this.date_joined = date_joined;
         this.address = address;
+    }
+
+    public Customer(String name, String email, String phone_number, String password, String address, LocalDateTime date_joined) {
+        this.name = name;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.password = password;
+        this.address = address;
+        this.date_joined = date_joined;
     }
 
     public int getCustomer_id() {
@@ -79,11 +88,11 @@ public class Customer {
         this.address = address;
     }
 
-    public Date getDate_joined() {
+    public LocalDateTime getDate_joined() {
         return date_joined;
     }
 
-    public void setDate_joined(Date date_joined) {
+    public void setDate_joined(LocalDateTime date_joined) {
         this.date_joined = date_joined;
     }
 }
