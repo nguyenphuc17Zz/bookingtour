@@ -60,6 +60,9 @@ public class AdminController {
             return "admin/forgotpass";
         }
     }
-
+    @GetMapping("/admin/index")
+    public String showIndexPage(Model model) {
+        return "admin/index";
+    }
 
 }
