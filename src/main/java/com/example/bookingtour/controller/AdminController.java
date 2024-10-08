@@ -29,6 +29,10 @@ public class AdminController {
     public String processLogin(@ModelAttribute("admin") Admin admin, RedirectAttributes ra, HttpServletResponse response) {
         Admin admin1 = adminService.findAdminByEmail(admin.getEmail());
         if (admin1 != null && admin1.getPassword().equals(admin.getPassword())) {
+            if(!admin1.isStatus()){
+                ra.addFlashAttribute("message", "Tài khoản đã bị khóa!");
+                return "redirect:/admin/login"; // Chuyển hướng về trang đăng nhập
+            }
             createCookie(response, String.valueOf(admin1.getAdmin_id()));
             return "redirect:/admin/index";
         } else {

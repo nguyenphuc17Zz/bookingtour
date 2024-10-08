@@ -5,6 +5,7 @@ import com.example.bookingtour.dto.ForgotPassDto;
 import com.example.bookingtour.entity.Admin;
 import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.service.CustomerService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -49,7 +51,7 @@ public class CustomerController {
             model.addAttribute("message","Nhập lại mật khẩu chưa chính xác");
             return "user/register";
         }
-        Customer cus = new Customer(name,email,phoneNumber,password,address,now);
+        Customer cus = new Customer(name,email,phoneNumber,password,address,now,true);
         this.customerService.add_update(cus);
         model.addAttribute("message","Đăng kí thành công");
         return "user/register";
@@ -61,7 +63,7 @@ public class CustomerController {
         return "user/login";
     }
     @PostMapping("/customer/login/send")
-    public String processLogin(@ModelAttribute("customer") Customer c , Model model){
+    public String processLogin(@ModelAttribute("customer") Customer c , Model model, RedirectAttributes ra){
         Customer cus = customerService.findByEmail(c.getEmail());
         if(cus==null){
             model.addAttribute("message","Không tìm thấy email");
@@ -71,6 +73,10 @@ public class CustomerController {
                 model.addAttribute("message","Sai mật khẩu");
                 return "user/login";
             }else{
+                if(!cus.isStatus()){
+                    model.addAttribute("message","Tài khoản đã bị khóa");
+                    return "user/login";
+                }
                 model.addAttribute("message","Đăng nhập thành công");
                 return "user/login";
             }

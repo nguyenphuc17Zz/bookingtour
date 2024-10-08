@@ -17,6 +17,27 @@ public class Customer {
     private  String password;
     private String address;
     private LocalDateTime date_joined;
+    private boolean status;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public Customer(String name, String email, String phone_number, String password, String address, LocalDateTime date_joined, boolean status) {
+        this.name = name;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.password = password;
+        this.address = address;
+        this.date_joined = date_joined;
+        this.status = status;
+    }
+
+
 
     public Customer() {
     }
