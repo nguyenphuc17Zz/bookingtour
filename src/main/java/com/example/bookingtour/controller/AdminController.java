@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AdminController {
@@ -25,14 +26,14 @@ public class AdminController {
     }
 
     @PostMapping("/admin/login/send")
-    public String processLogin(@ModelAttribute("admin") Admin admin, Model model, HttpServletResponse response) {
+    public String processLogin(@ModelAttribute("admin") Admin admin, RedirectAttributes ra, HttpServletResponse response) {
         Admin admin1 = adminService.findAdminByEmail(admin.getEmail());
         if (admin1 != null && admin1.getPassword().equals(admin.getPassword())) {
             createCookie(response, String.valueOf(admin1.getAdmin_id()));
             return "redirect:/admin/index";
         } else {
-            model.addAttribute("message", "Thông tin đăng nhập không chính xác!");
-            return "/admin/login";
+            ra.addFlashAttribute("message", "Thông tin đăng nhập không chính xác!");
+            return "redirect:/admin/login"; // Chuyển hướng về trang đăng nhập
         }
     }
 
@@ -44,7 +45,7 @@ public class AdminController {
     }
     // XU LI QUEN MAT KHAU
     @PostMapping("/admin/forgotpass/send")
-    public  String processForgotPass(@ModelAttribute("forgotpass") ForgotPassDto forgotpass, Model model){
+    public  String processForgotPass(@ModelAttribute("forgotpass") ForgotPassDto forgotpass, Model model,RedirectAttributes ra){
         Admin admin1 = this.adminService.findAdminByEmail(forgotpass.getEmail());
         System.out.println(forgotpass.getNewPassword());
         System.out.println(forgotpass.getConfirmPassword());
@@ -56,12 +57,12 @@ public class AdminController {
                 model.addAttribute("message", "Mật khẩu đã được cập nhật thành công!");
                 return "admin/login";
             } else {
-                model.addAttribute("message", "Mật khẩu không khớp!");
-                return "admin/forgotpass";
+                ra.addFlashAttribute("message", "Mật khẩu không khớp!");
+                return "redirect:/admin/forgotpass"; // Chuyển hướng để giữ lại form
             }
         } else {
-            model.addAttribute("message", "Không tìm thấy email này!");
-            return "admin/forgotpass";
+            ra.addFlashAttribute("message", "Không tìm thấy email này!");
+            return "redirect:/admin/forgotpass"; // Chuyển hướng để giữ lại form
         }
     }
     // LAY COOKIE
@@ -114,5 +115,39 @@ public class AdminController {
     public String processLogout(HttpServletRequest request, HttpServletResponse response, String name){
         deleteCookie(request,response,"adminId");
         return "redirect:/admin/login";
+    }
+    // GO TO SETTING PROFILE
+    @GetMapping("/admin/setting")
+    public String showSettingPage(HttpServletRequest request,Model model){
+        Cookie cookie = getCookie(request,"adminId");
+        Admin admin = adminService.findById(Integer.parseInt(cookie.getValue()));
+        model.addAttribute("admin",admin);
+        return "admin/setting";
+    }
+    @PostMapping("/admin/setting/send")
+    public String processChangeProfileAdmin(@ModelAttribute("admin") Admin admin , RedirectAttributes ra, HttpServletRequest request) {
+        Cookie cookie = getCookie(request, "adminId");
+        Admin currentAdmin = adminService.findById(Integer.parseInt(cookie.getValue()));
+
+        // Kiểm tra xem có thay đổi nào không
+        if (currentAdmin.getAdmin_name().equals(admin.getAdmin_name()) &&
+                currentAdmin.getEmail().equals(admin.getEmail()) &&
+                currentAdmin.getPassword().equals(admin.getPassword())) {
+            ra.addFlashAttribute("message", "Không có gì thay đổi");
+            return "redirect:/admin/setting";
+        } else {
+            // Cập nhật thông tin admin
+            System.out.println(admin.getAdmin_id());
+            System.out.println(admin.getAdmin_name());
+            int updatedCount = this.adminService.updateAdminSetting(currentAdmin.getAdmin_id(), admin.getAdmin_name(), admin.getEmail(), admin.getPassword(), admin.getRole());
+
+            if (updatedCount > 0) {
+                ra.addFlashAttribute("message", "Chỉnh sửa thông tin thành công");
+            } else {
+                ra.addFlashAttribute("message", "Không thể cập nhật thông tin admin");
+            }
+
+            return "redirect:/admin/setting";
+        }
     }
 }

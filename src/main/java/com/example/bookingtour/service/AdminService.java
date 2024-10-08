@@ -15,4 +15,10 @@ public class AdminService {
     public void updateAdmin(Admin admin){
         adminRepository.save(admin);
     }
+    public Admin findById(int id){
+         return adminRepository.findAdminById(id);
+    }
+    public int updateAdminSetting(int id, String name, String email, String pass, String role ){
+        return adminRepository.updateAdminSetting(id,name,email,pass,role);
+    }
 }
