@@ -22,7 +22,7 @@ public class AdminController {
     @GetMapping("/admin/login")
     public String showLoginPage(Model model) {
         model.addAttribute("admin",new Admin());
-        return "admin/login";
+        return "admin/authentication/login";
     }
 
     @PostMapping("/admin/login/send")
@@ -45,7 +45,7 @@ public class AdminController {
     @GetMapping("/admin/forgotpass")
     public String showForgotPassPage(Model model) {
         model.addAttribute("forgotpass", new ForgotPassDto());
-        return "admin/forgotpass";
+        return "admin/authentication/forgotpass";
     }
     // XU LI QUEN MAT KHAU
     @PostMapping("/admin/forgotpass/send")
@@ -59,7 +59,7 @@ public class AdminController {
                 admin1.setPassword(forgotpass.getNewPassword());
                 adminService.updateAdmin(admin1);
                 model.addAttribute("message", "Mật khẩu đã được cập nhật thành công!");
-                return "admin/login";
+                return "admin/authentication/login";
             } else {
                 ra.addFlashAttribute("message", "Mật khẩu không khớp!");
                 return "redirect:/admin/forgotpass"; // Chuyển hướng để giữ lại form
@@ -126,7 +126,7 @@ public class AdminController {
         Cookie cookie = getCookie(request,"adminId");
         Admin admin = adminService.findById(Integer.parseInt(cookie.getValue()));
         model.addAttribute("admin",admin);
-        return "admin/setting";
+        return "admin/authentication/setting";
     }
     @PostMapping("/admin/setting/send")
     public String processChangeProfileAdmin(@ModelAttribute("admin") Admin admin , RedirectAttributes ra, HttpServletRequest request) {
