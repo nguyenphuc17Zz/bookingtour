@@ -1,9 +1,11 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Admin Bookingtour</title>
+    <title >Default Title</title>
     <!-- plugins:css -->
     <link rel="stylesheet" th:href="@{/template_admin/template/vendors/ti-icons/css/themify-icons.css}">
     <link rel="stylesheet" th:href="@{/template_admin/template/vendors/base/vendor.bundle.base.css}" >
@@ -15,20 +17,44 @@
     <!-- endinject -->
     <link rel="shortcut icon" th:href="@{/template_admin/template/images/favicon.png}" >
 </head>
+<body>
+<div class="container-scroller" th:fragment="layout(content)">
 
+    <!-- partial:partials/_navbar.html -->
+    <nav th:replace="admin/partials/_navbar :: navbar">
 
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <nav th:replace="admin/partials/_sidebar :: sidebar" >
 
+        </nav>
+        <!-- partial -->
+        <!--
+        <div class="main-panel">
+            <div class="content-wrapper">
 
-<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/dashboard :: content})"></div>
+            </div>
 
+        </div>
+        -->
+        <div th:replace="${content}"></div>
 
-<footer th:replace="admin/partials/_footer :: footer">
+        <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
 
-</footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
 
+</div>
 
+    <!-- page-body-wrapper ends -->
 
+<!-- container-scroller -->
 
+<!-- plugins:js -->
 <script  th:src="@{/template_admin/template/vendors/base/vendor.bundle.base.js}"></script>
 <!-- endinject -->
 <!-- Plugin js for this page-->
@@ -43,4 +69,8 @@
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script th:src="@{/template_admin/template/js/dashboard.js}"></script>
+<!-- End custom js for this page-->
+</body>
+
 </html>
+
