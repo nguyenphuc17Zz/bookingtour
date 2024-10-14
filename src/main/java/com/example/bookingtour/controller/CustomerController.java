@@ -55,7 +55,7 @@ public class CustomerController {
         Customer cus = new Customer(name,email,phoneNumber,password,address,now,true);
         this.customerService.add_update(cus);
         model.addAttribute("message","Đăng kí thành công");
-        return "user/authentication/register";
+        return "redirect:/customer/login";
     }
 
     @GetMapping("/customer/login")
@@ -112,27 +112,36 @@ public class CustomerController {
 
 
     @GetMapping("/admin/customer")
-    public String showCustomerPage(Model model) {
-        List<Customer> customers = this.customerService.getAllCustomers();
-        model.addAttribute("customers",customers);
-      //  int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-        return "admin/customer/cus_table";
-    }
-
-    @GetMapping("/admin/customer/search")
-    public String executeSearchCustomer(@RequestParam(value = "searchTerm",required = false) String searchTerm,Model model){
-        System.out.println("Search Term: " + searchTerm);
+    public String showCustomerPage(Model model,
+    @RequestParam(value="searchTerm",required=false) String searchTerm,
+    @RequestParam(value = "resultsPerPage" , required = false, defaultValue = "10") int resultsPerPage,
+     @RequestParam(value = "page", required = false, defaultValue = "1") int page
+    ) {
         List<Customer> customers;
-        if(searchTerm!=null && !searchTerm.isEmpty()){
+        if (searchTerm != null && !searchTerm.isEmpty()) {
             customers = customerService.searchCustomers(searchTerm);
-        }else{
-            customers=this.customerService.getAllCustomers();
+        } else {
+            customers = customerService.getAllCustomers();
         }
-        model.addAttribute("customers",customers);
-        if (customers.isEmpty()) {
-            model.addAttribute("message", "Không tìm thấy khách hàng nào.");
+        if(customers.isEmpty()){
+            model.addAttribute("message","Không tìm thấy kết quả phù hợp");
         }
+
+
+
+        int totalCustomers = customers.size();
+        int totalPages = (int) Math.ceil((double) totalCustomers / resultsPerPage);
+        int start = (page - 1) * resultsPerPage;
+        int end = Math.min(start + resultsPerPage, totalCustomers);
+
+        List<Customer> paginatedCustomers = customers.subList(start, end);
+
+        model.addAttribute("customers", paginatedCustomers);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("resultsPerPage", resultsPerPage);
+        model.addAttribute("searchTerm", searchTerm);
+
         return "admin/customer/cus_table";
     }
-
 }
