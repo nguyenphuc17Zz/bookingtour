@@ -1,6 +1,7 @@
 package com.example.bookingtour.controller;
 
 import com.example.bookingtour.dto.ForgotPassDto;
+import com.example.bookingtour.entity.Customer;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class AdminController {
@@ -154,4 +157,6 @@ public class AdminController {
             return "redirect:/admin/setting";
         }
     }
+
+
 }

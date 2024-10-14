@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+             width: 95%; /* Chiếm 95% chiều rộng của màn hình */
+             max-width: 1600px; /* Chiều rộng tối đa vẫn giữ nguyên */
+             margin: 0 auto; /* Căn giữa container */
+            }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #6f42c1;
+            border-color: #6f42c1;
+            box-shadow: 0 4px 8px rgba(111, 66, 193, 0.4);
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #563d7c;
+            box-shadow: 0 4px 12px rgba(86, 61, 124, 0.4);
+        }
+
+        .form-select,
+        .form-control {
+            max-width: 150px;
+        }
+
+        .status-active {
+            color: #28a745;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            padding: 5px 12px;
+            font-weight: 500;
+            border-radius: 12px;
+        }
+
+        .status-inactive {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            padding: 5px 12px;
+            font-weight: 500;
+            border-radius: 12px;
+        }
+
+        .table-actions i {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .table-actions i:hover {
+            transform: scale(1.1);
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination-container .pagination {
+            margin: 0;
+        }
+
+        .pagination .page-link {
+            color: #6f42c1;
+            border-radius: 8px;
+            border-color: #6f42c1;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .pagination .page-link:hover {
+            color: #fff;
+            background-color: #6f42c1;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #6f42c1;
+            border-color: #6f42c1;
+            color: #fff;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #aaa;
+        }
+         #results-per-page {
+      width: 80px;
+      /* Kích thước nhỏ cho phần chọn kết quả */
+      padding: 5px;
+      /* Giảm padding để nhỏ gọn hơn */
+      font-size: 14px;
+      /* Kích thước chữ nhỏ hơn */
+    }
+
+    /* Tăng kích thước phần tìm kiếm */
+    .input-group {
+      width: 300px;
+      /* Tăng chiều rộng của ô tìm kiếm */
+    }
+
+    .input-group .form-control {
+      border-radius: 0.375rem;
+      /* Bo góc ô tìm kiếm */
+    }
+
+    .input-group .btn {
+      border-radius: 0.375rem;
+      /* Bo góc nút tìm kiếm */
+    }
+
+    </style>
+</head>
+
+<body>
+<div class="container mt-5" th:fragment="content(customers,message)">
+    <div class="card p-4">
+        <h3>Quản lý khách hàng</h3>
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <button class="btn btn-primary">Thêm mới</button>
+            <div class="d-flex align-items-center">
+                <label for="results-per-page" class="form-label me-2 mb-0">Kết quả:</label>
+                <select id="results-per-page" class="form-select me-3">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+
+                <form action="#" th:action="@{/admin/customer/search}" method="get">
+                    <div class="input-group">
+                        <input type="text" name="searchTerm" class="form-control" placeholder="Tìm kiếm..." th:value="${searchTerm}">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+
+
+
+            </div>
+        </div>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">Tên</th>
+                <th scope="col">Email</th>
+                <th scope="col">SDT</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Trạng thái</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.phone_number}"></td>
+                <td>
+                    <span th:class="${customer.status == true} ? 'status-active' : 'status-inactive'"
+                          th:text="${customer.status == true} ? 'Hoạt động' : 'Không hoạt động'"></span>
+                </td>
+                <td class="table-actions">
+                    <i class="bi bi-pencil-square text-primary me-2" th:onclick="'editCustomer(' + ${customer.customer_id} + ');'"></i>
+
+                    <i class="bi bi-trash text-danger"
+                       th:if="${customer.status == true}"
+                       th:onclick="'deleteCustomer(' + ${customer.customer_id} + ');'"></i>
+
+                    <i class="bi bi-arrow-repeat text-success"
+                       th:unless="${customer.status == true}"
+                       th:onclick="'restoreCustomer(' + ${customer.customer_id} + ');'"></i> <!-- Icon khôi phục khi trạng thái không hoạt động -->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination-container">
+            <div>Đang hiển thị trang 1 của 1</div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div th:if="${message != null}" class="alert alert-warning" th:text="${message}"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

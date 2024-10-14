@@ -20,4 +20,10 @@ public class CustomerService {
     public void add_update(Customer c){
         customerRepository.save(c);
     }
+    public List<Customer> getAllCustomers(){
+        return customerRepository.findAll();
+    }
+    public List<Customer> searchCustomers(String searchTerm){
+        return this.customerRepository.searchCustomers(searchTerm);
+    }
 }

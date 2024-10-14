@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
@@ -105,6 +106,33 @@ public class CustomerController {
                 return "user/authentication/forgotpass";
             }
         }
+    }
+
+
+
+
+    @GetMapping("/admin/customer")
+    public String showCustomerPage(Model model) {
+        List<Customer> customers = this.customerService.getAllCustomers();
+        model.addAttribute("customers",customers);
+      //  int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+        return "admin/customer/cus_table";
+    }
+
+    @GetMapping("/admin/customer/search")
+    public String executeSearchCustomer(@RequestParam(value = "searchTerm",required = false) String searchTerm,Model model){
+        System.out.println("Search Term: " + searchTerm);
+        List<Customer> customers;
+        if(searchTerm!=null && !searchTerm.isEmpty()){
+            customers = customerService.searchCustomers(searchTerm);
+        }else{
+            customers=this.customerService.getAllCustomers();
+        }
+        model.addAttribute("customers",customers);
+        if (customers.isEmpty()) {
+            model.addAttribute("message", "Không tìm thấy khách hàng nào.");
+        }
+        return "admin/customer/cus_table";
     }
 
 }
