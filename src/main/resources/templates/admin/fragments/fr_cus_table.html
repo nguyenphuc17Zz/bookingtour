@@ -65,8 +65,11 @@
                           th:text="${customer.status == true} ? 'Hoạt động' : 'Không hoạt động'"></span>
                 </td>
                 <td class="table-actions">
-                    <i class="bi bi-pencil-square text-primary me-2" th:onclick="'editCustomer(' + ${customer.customer_id} + ');'"></i>
-
+                    <a class="text-decoration-none text-primary me-2"
+                       th:href="@{/admin/customer/edit/{id}(id=${customer.customer_id})}"
+                       title="Chỉnh sửa khách hàng">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
                     <i class="bi bi-trash text-danger"
                        th:if="${customer.status == true}"
                        th:onclick="'deleteCustomer(' + ${customer.customer_id} + ');'"></i>

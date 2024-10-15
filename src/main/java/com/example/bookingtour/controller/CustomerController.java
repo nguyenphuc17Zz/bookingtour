@@ -190,4 +190,26 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Khôi phục khách hàng thất bại.");
         }
     }
+    @GetMapping("admin/customer/edit/{id}")
+    public String showPageEditCustomer(@PathVariable("id") int id,Model model){
+        Customer c = this.customerService.findById(id);
+
+        model.addAttribute("customer",c);
+        return "admin/customer/cus_edit";
+    }
+    @PostMapping("admin/customer/update/{id}/send")
+    public String executeEditCustomer(@PathVariable("id") int id , @ModelAttribute Customer customer, RedirectAttributes ra){
+
+        Customer c = this.customerService.findById(id);
+        c.setName(customer.getName());
+        c.setEmail(customer.getEmail());
+        c.setPhone_number(customer.getPhone_number());
+        c.setAddress(customer.getAddress());
+        c.setStatus(customer.isStatus());
+
+        // Lưu khách hàng đã cập nhật
+        customerService.save(c);
+        ra.addFlashAttribute("message","Cập nhật thành công");
+        return String.format("redirect:/admin/customer/edit/%d", id);
+    }
 }

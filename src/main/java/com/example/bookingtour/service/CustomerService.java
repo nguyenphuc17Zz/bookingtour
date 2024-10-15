@@ -36,5 +36,11 @@ public class CustomerService {
         customer.setStatus(true);
         customerRepository.save(customer);
     }
-
+    public Customer findById(int id){
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found"));
+        return customer;
+    }
+    public void save(Customer customer) {
+        customerRepository.save(customer);
+    }
 }
