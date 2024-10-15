@@ -212,4 +212,16 @@ public class CustomerController {
         ra.addFlashAttribute("message","Cập nhật thành công");
         return String.format("redirect:/admin/customer/edit/%d", id);
     }
+    @GetMapping("admin/customer/add")
+    public String showPageAddCustomer(Model model){
+        model.addAttribute("customer",new Customer());
+        return "admin/customer/cus_add";
+    }
+    @PostMapping("admin/customer/add/send")
+    public String executeAddCustomer(@ModelAttribute Customer customer, RedirectAttributes ra) {
+        customer.setPassword("1");
+        customerService.save(customer);
+        ra.addFlashAttribute("message", "Thêm mới khách hàng thành công");
+        return "redirect:/admin/customer/add";
+    }
 }
