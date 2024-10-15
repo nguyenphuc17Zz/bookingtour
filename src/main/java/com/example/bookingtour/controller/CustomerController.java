@@ -8,17 +8,18 @@ import com.example.bookingtour.service.CustomerService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class CustomerController {
@@ -115,7 +116,9 @@ public class CustomerController {
     public String showCustomerPage(Model model,
     @RequestParam(value="searchTerm",required=false) String searchTerm,
     @RequestParam(value = "resultsPerPage" , required = false, defaultValue = "10") int resultsPerPage,
-     @RequestParam(value = "page", required = false, defaultValue = "1") int page
+     @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+    @RequestParam(value = "sort" , defaultValue = "name" , required = false) String sort,
+    @RequestParam(value="order", defaultValue = "asc", required = false) String order
     ) {
         List<Customer> customers;
         if (searchTerm != null && !searchTerm.isEmpty()) {
@@ -126,7 +129,19 @@ public class CustomerController {
         if(customers.isEmpty()){
             model.addAttribute("message","Không tìm thấy kết quả phù hợp");
         }
-
+        if ("asc".equals(order)) {
+            customers.sort((c1, c2) -> {
+                Comparable value1 = getPropertyValue(c1, sort);
+                Comparable value2 = getPropertyValue(c2, sort);
+                return value1 == null ? -1 : value1.compareTo(value2);
+            });
+        } else {
+            customers.sort((c1, c2) -> {
+                Comparable value1 = getPropertyValue(c1, sort);
+                Comparable value2 = getPropertyValue(c2, sort);
+                return value2 == null ? -1 : value2.compareTo(value1);
+            });
+        }
 
 
         int totalCustomers = customers.size();
@@ -141,7 +156,38 @@ public class CustomerController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("resultsPerPage", resultsPerPage);
         model.addAttribute("searchTerm", searchTerm);
-
+        model.addAttribute("sort",sort);
+        model.addAttribute("order", order);
         return "admin/customer/cus_table";
+    }
+    private Comparable<?> getPropertyValue(Customer customer, String propertyName) {
+        if ("name".equals(propertyName)) {
+            return customer.getName(); // String
+        } else if ("email".equals(propertyName)) {
+            return customer.getEmail(); // String
+        } else if ("status".equals(propertyName)) {
+            return customer.isStatus() ? 1 : 0;
+        }
+        return null;
+    }
+    @PostMapping("admin/customer/delete/{customerId}")
+    @ResponseBody
+    public ResponseEntity<String> deleteCustomer(@PathVariable("customerId") int customerId) {
+        try {
+            customerService.deleteCustomer(customerId);
+            return ResponseEntity.ok("Xóa khách hàng thành công.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Xóa khách hàng thất bại.");
+        }
+    }
+    @PostMapping("admin/customer/restore/{customerId}")
+    @ResponseBody
+    public ResponseEntity<String> restoreCustomer(@PathVariable("customerId") int customerId) {
+        try {
+            customerService.restoreCustomer(customerId);
+            return ResponseEntity.ok("Khôi phục khách hàng thành công.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Khôi phục khách hàng thất bại.");
+        }
     }
 }

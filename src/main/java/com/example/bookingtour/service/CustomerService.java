@@ -26,4 +26,15 @@ public class CustomerService {
     public List<Customer> searchCustomers(String searchTerm){
         return this.customerRepository.searchCustomers(searchTerm);
     }
+    public void deleteCustomer(int customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        customer.setStatus(false);
+        customerRepository.save(customer);
+    }
+    public void restoreCustomer(int customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        customer.setStatus(true);
+        customerRepository.save(customer);
+    }
+
 }
