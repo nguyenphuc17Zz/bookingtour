@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 
 public interface AdminRepository extends JpaRepository<Admin,Integer> {
@@ -29,5 +31,11 @@ public interface AdminRepository extends JpaRepository<Admin,Integer> {
                            @Param("email") String email,
                            @Param("password") String password,
                            @Param("role") String role);
+
+    @Transactional
+    @Query("SELECT a FROM Admin a WHERE LOWER(a.admin_name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(a.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+            "OR LOWER(a.role) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    public List<Admin> searchAdmins(@Param("searchTerm") String searchTerm);
 
 }
