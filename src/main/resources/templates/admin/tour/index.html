@@ -162,7 +162,7 @@ a {
 
 
 
-<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/fr_admin_table :: content(admins=${admins}, message=${message} , currentPage=${currentPage},
+<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/fr_tour_table :: content(tours=${tours}, message=${message} , currentPage=${currentPage},
 totalPages=${totalPages}, resultsPerPage=${resultsPerPage} , sort =${sort} , order=${order}
 )})"></div>
 
@@ -174,12 +174,12 @@ totalPages=${totalPages}, resultsPerPage=${resultsPerPage} , sort =${sort} , ord
 
 <script>
   function submitSearchForm() {
-      document.getElementById("customerSearchForm").submit();
+      document.getElementById("tourSearchForm").submit();
   }
-  function deleteAdmin(customerId) {
-  if (confirm("Bạn có chắc muốn xóa admin này?")) {
-      fetch(`/admin/qtv/delete/${customerId}`, {
-          method: 'POST',
+  function deleteTour(tourId) {
+  if (confirm("Bạn có chắc muốn xóa tour này?")) {
+      fetch(`/admin/tour/delete/${tourId}`, {
+          method: 'PUT',
       })
       .then(response => response.text())
       .then(data => {
@@ -189,10 +189,10 @@ totalPages=${totalPages}, resultsPerPage=${resultsPerPage} , sort =${sort} , ord
       .catch(error => console.error('Error:', error));
   }
 }
-   function restoreAdmin(customerId) {
-  if (confirm("Bạn có chắc muốn khôi phục admin này?")) {
-      fetch(`/admin/qtv/restore/${customerId}`, {
-          method: 'POST',
+   function restoreTour(tourId) {
+  if (confirm("Bạn có chắc muốn khôi phục tour này?")) {
+      fetch(`/admin/tour/restore/${tourId}`, {
+          method: 'PUT',
       })
       .then(response => response.text())
       .then(data => {

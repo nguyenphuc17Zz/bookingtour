@@ -6,17 +6,20 @@
     <title>Admin Bookingtour</title>
     <!-- plugins:css -->
     <link rel="stylesheet" th:href="@{/template_admin/template/vendors/ti-icons/css/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/template_admin/template/vendors/base/vendor.bundle.base.css}" >
+    <link rel="stylesheet" th:href="@{/template_admin/template/vendors/base/vendor.bundle.base.css}">
     <!-- endinject -->
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet"  th:href="@{/template_admin/template/css/style.css}" >
+    <link rel="stylesheet" th:href="@{/template_admin/template/css/style.css}">
     <!-- endinject -->
-    <link rel="shortcut icon" th:href="@{/template_admin/template/images/favicon.png}" >
+    <link rel="shortcut icon" th:href="@{/template_admin/template/images/favicon.png}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+    <!-- Thêm CSS của FontAwesome từ CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 
 
     <style>
@@ -160,9 +163,7 @@ a {
 </head>
 
 
-
-
-<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/fr_cus_table :: content(customers=${customers}, message=${message} , currentPage=${currentPage},
+<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/fr_notification_table :: content(notifications=${notifications}, message=${message} , currentPage=${currentPage},
 totalPages=${totalPages}, resultsPerPage=${resultsPerPage} , sort =${sort} , order=${order}
 )})"></div>
 
@@ -176,10 +177,10 @@ totalPages=${totalPages}, resultsPerPage=${resultsPerPage} , sort =${sort} , ord
     function submitSearchForm() {
         document.getElementById("customerSearchForm").submit();
     }
-    function deleteCustomer(customerId) {
-    if (confirm("Bạn có chắc muốn xóa khách hàng này?")) {
-        fetch(`/admin/customer/delete/${customerId}`, {
-            method: 'POST',
+    function deleteNotification(notificationId) {
+    if (confirm("Bạn có chắc muốn xóa thông  này?")) {
+        fetch(`/admin/notification/delete/${notificationId}`, {
+            method: 'DELETE',
         })
         .then(response => response.text())
         .then(data => {
@@ -189,36 +190,23 @@ totalPages=${totalPages}, resultsPerPage=${resultsPerPage} , sort =${sort} , ord
         .catch(error => console.error('Error:', error));
     }
 }
-     function restoreCustomer(customerId) {
-    if (confirm("Bạn có chắc muốn khôi phục khách hàng này?")) {
-        fetch(`/admin/customer/restore/${customerId}`, {
-            method: 'POST',
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert(data);
-            location.reload();
-        })
-        .catch(error => console.error('Error:', error));
-    }
-}
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script  th:src="@{/template_admin/template/vendors/base/vendor.bundle.base.js}"></script>
+<script th:src="@{/template_admin/template/vendors/base/vendor.bundle.base.js}"></script>
 <!-- endinject -->
 <!-- Plugin js for this page-->
-<script  th:src="@{/template_admin/template/vendors/chart.js/Chart.min.js}"></script>
-<script  th:src="@{/template_admin/template/js/jquery.cookie.js}" type="text/javascript"></script>
+<script th:src="@{/template_admin/template/vendors/chart.js/Chart.min.js}"></script>
+<script th:src="@{/template_admin/template/js/jquery.cookie.js}" type="text/javascript"></script>
 <!-- End plugin js for this page-->
 <!-- inject:js -->
-<script  th:src="@{/template_admin/template/js/off-canvas.js}"></script>
-<script  th:src="@{/template_admin/template/js/hoverable-collapse.js}"></script>
+<script th:src="@{/template_admin/template/js/off-canvas.js}"></script>
+<script th:src="@{/template_admin/template/js/hoverable-collapse.js}"></script>
 <script th:src="@{/template_admin/template/js/template.js}"></script>
 <script th:src="@{/template_admin/template/js/todolist.js}"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script th:src="@{/template_admin/template/js/dashboard.js}"></script>
-<script th:src="@{/js/dropdown.js}"></script>
 <script th:src="@{/js/dropdown.js}"></script>
 
 </html>
