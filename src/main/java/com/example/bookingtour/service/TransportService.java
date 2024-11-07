@@ -25,11 +25,42 @@ public class TransportService {
 //        customerRepository.save(c);
 //    }
 
-    public List<Transport> getAllTransport(){
-        return transportRepository.findAll();
+
+    public List<Transport> getAllTransports(){
+        return this.transportRepository.findAll();
+    }
+    public List<Transport> searchTransports(String searchTerm){
+        return this.transportRepository.searchTransports(searchTerm);
+    }
+
+    public Transport findById(int id){
+        return transportRepository.findTransportById(id);
+    }
+
+//    public void deleteTransport(int transportId) {
+//        transportRepository.deleteById(transportId);
+//    }
+
+    public void deleteTransport(int transportId) {
+        Transport transport = transportRepository.findById(transportId).orElseThrow(() -> new RuntimeException("Transport not found"));
+        transport.setStatus(false);
+        transportRepository.save(transport);
     }
 
 
+    public void restoreTransport(int transportId) {
+        Transport transport = transportRepository.findById(transportId).orElseThrow(() -> new RuntimeException("Transport not found"));
+        transport.setStatus(true);
+        transportRepository.save(transport);
+    }
+
+    public void editTransport(int transportId) {
+        Transport transport = transportRepository.findById(transportId).orElseThrow(() -> new RuntimeException("Transport not found"));
+    }
+
+    public void save(Transport transport) {
+        transportRepository.save(transport);
+    }
 //    public List<Customer> searchCustomers(String searchTerm){
 //        return this.customerRepository.searchCustomers(searchTerm);
 //    }

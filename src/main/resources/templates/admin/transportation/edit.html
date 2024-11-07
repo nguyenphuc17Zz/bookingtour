@@ -1,0 +1,171 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin Bookingtour</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" th:href="@{/template_admin/template/vendors/ti-icons/css/themify-icons.css}">
+  <link rel="stylesheet" th:href="@{/template_admin/template/vendors/base/vendor.bundle.base.css}" >
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet"  th:href="@{/template_admin/template/css/style.css}" >
+  <!-- endinject -->
+  <link rel="shortcut icon" th:href="@{/template_admin/template/images/favicon.png}" >
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+
+  <style>
+    body {
+ background-color: #f8f9fa;
+}
+
+.container {
+width: 95%; /* Chiếm 95% chiều rộng của màn hình */
+ max-width: 1600px; /* Chiều rộng tối đa vẫn giữ nguyên */
+ margin: 0 auto; /* Căn giữa container */
+ background-color: #ffffff;
+ border-radius: 8px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ padding: 20px;
+}
+
+h2 {
+ color: #333;
+}
+   .status-active {
+            color: #28a745;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            padding: 5px 12px;
+            font-weight: 500;
+            border-radius: 12px;
+        }
+
+        .status-inactive {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            padding: 5px 12px;
+            font-weight: 500;
+            border-radius: 12px;
+        }
+
+
+
+  </style>
+
+</head>
+
+
+
+<div class="container-scroller" th:fragment="layout(content)">
+
+  <!-- partial:partials/_navbar.html -->
+  <nav th:replace="admin/partials/_navbar :: navbar">
+
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_sidebar.html -->
+    <nav th:replace="admin/partials/_sidebar :: sidebar" >
+
+    </nav>
+
+    <div class="container mt-5" th:fragment="content(transport,message)">
+      <h2 class="text-center mb-4">Chỉnh sửa thông tin phương tiện</h2>
+
+      <form th:action="@{/admin/transportation/update/{id}/send(id=${transport.transportationId})}" method="post" id="editTransportForm" th:object="${transport}">
+        <div class="xl-6 mb-3">
+          <label for="transportationType" class="form-label">Loại phương tiện</label>
+          <input type="text" class="form-control" id="transportationType" name="transportationType" required th:field="*{transportationType}">
+        </div>
+
+
+        <div class="xl-6 mb-3">
+          <label for="tag" class="form-label">Biển số</label>
+          <input type="text" class="form-control" id="tag" name="tag" required th:field="*{tag}">
+        </div>
+
+        <div class="xl-6 mb-3">
+          <label for="seat" class="form-label">Chỗ ngồi</label>
+          <input type="number" class="form-control" id="seat" name="seat" required th:field="*{seat}">
+        </div>
+
+
+
+        <div class="mb-3">
+          <label for="status" class="form-label">Trạng thái</label>
+          <select class="form-select" id="status" name="status" th:field="*{status}"  disabled >
+            <option value="1" th:selected="*{status}">Hoạt động</option>
+            <option value="0" th:selected="*{!status}">Không hoạt động</option>
+          </select>
+        </div>
+
+        <div th:if="${message != null}" class="alert alert-warning" th:text="${message}"></div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Cập nhật</button>
+          <a href="/admin/transportation" class="btn btn-secondary">Quay lại</a>
+        </div>
+      </form>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!--<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/fr_admin_edit :: content(admin=${admin} , message=${message}-->
+<!--)})"></div>-->
+
+
+<footer th:replace="admin/partials/_footer :: footer">
+
+</footer>
+
+
+<script>
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script  th:src="@{/template_admin/template/vendors/base/vendor.bundle.base.js}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script  th:src="@{/template_admin/template/vendors/chart.js/Chart.min.js}"></script>
+<script  th:src="@{/template_admin/template/js/jquery.cookie.js}" type="text/javascript"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script  th:src="@{/template_admin/template/js/off-canvas.js}"></script>
+<script  th:src="@{/template_admin/template/js/hoverable-collapse.js}"></script>
+<script th:src="@{/template_admin/template/js/template.js}"></script>
+<script th:src="@{/template_admin/template/js/todolist.js}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script th:src="@{/template_admin/template/js/dashboard.js}"></script>
+
+</html>

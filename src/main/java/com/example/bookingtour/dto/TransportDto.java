@@ -3,66 +3,57 @@ package com.example.bookingtour.dto;
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 public class TransportDto {
-    private String transportation_type;
-    private String departure_location;
-    private String arrival_location;
-    private LocalDateTime departure_time;
-    private LocalDateTime arrival_time;
-    private Double price;
+
+    private int transportationId;
+    private String transportationType;
+    private  String tag;
+    private  int seat;
+    private boolean status;
 
     public TransportDto() {
     }
 
-    public TransportDto(String transportation_type, String departure_location, String arrival_location, LocalDateTime departure_time, LocalDateTime arrival_time, Double price) {
-        this.transportation_type = transportation_type;
-        this.departure_location = departure_location;
-        this.arrival_location = arrival_location;
-        this.departure_time = departure_time;
-        this.arrival_time = arrival_time;
-        this.price = price;
+    public TransportDto(int transportationId, String transportationType, String tag ,int seat, boolean status) {
+        this.transportationId = transportationId;
+        this.transportationType = transportationType;
+        this.tag = tag;
+        this.seat = seat;
+        this.status = status;
     }
 
-    public void setTrasportationType(String transportation_type) {
-        this.transportation_type = transportation_type;
+    public void setTransportationId(int transportationId) {
+        this.transportationId = transportationId;
     }
-    public String getTrasportationType() {
-        return transportation_type;
-    }
-
-
-    public void setDepartureLocation(String departure_location) {
-        this.departure_location = departure_location;
+    public int getTransportationId() {
+        return transportationId;
     }
 
-    public String getDepartureLocation() {
-        return departure_location;
+    public void setTransportationType(String transportationType) {
+        this.transportationType = transportationType;
+    }
+    public String getTransportationType() {
+        return transportationType;
     }
 
-    public void setArrivalLocation(String arrival_location) {
-        this.arrival_location = arrival_location;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
-    public String getArrivalLocation() {
-        return arrival_location;
-    }
-
-    public void setDepartureTime(LocalDateTime departure_time) {
-        this.departure_time = departure_time;
-    }
-    public LocalDateTime getDepartureTime() {
-        return departure_time;
+    public String getTag() {
+        return tag;
     }
 
-    public void setArrivalTime(LocalDateTime arrival_time) {
-        this.arrival_time = departure_time;
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
-    public LocalDateTime getArrivalTime() {
-        return arrival_time;
+    public int getSeat() {
+        return seat;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
-    public Double getPrice() {
-        return price;
+    public boolean getStatus() {
+        return status;
     }
+
 }

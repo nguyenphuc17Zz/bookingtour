@@ -11,19 +11,58 @@ public class Transport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int transportation_id;
     private String transportation_type;
-    private  String departure_location;
-    private  String arrival_location;
-    private  LocalDateTime departure_time;
-    private LocalDateTime arrival_time;
-    private Double price;
+    private String tag;
+    private int seat;
+    private boolean status;
 
-
-    public Transport(String transportation_type, String departure_location, String arrival_location, LocalDateTime departure_time, LocalDateTime arrival_time, Double price) {
-        this.transportation_type = transportation_type;
-        this.departure_location = departure_location;
-        this.arrival_location = arrival_location;
-        this.departure_time = departure_time;
-        this.arrival_time = arrival_time;
-        this.price = price;
+    public Transport() {
     }
+
+    public Transport(int transportation_id, String transportation_type, String tag ,int seat, boolean status) {
+        this.transportation_id = transportation_id;
+        this.transportation_type = transportation_type;
+        this.tag = tag;
+        this.seat = seat;
+        this.status = status;
+    }
+
+    public void setTransportationId(int transportation_id) {
+        this.transportation_id = transportation_id;
+    }
+    public int getTransportationId() {
+        return transportation_id;
+    }
+
+    public void setTransportationType(String transportation_type) {
+        this.transportation_type = transportation_type;
+    }
+    public String getTransportationType() {
+        return transportation_type;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+    public String getTag() {
+        return tag;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    public boolean getStatus() {
+        return status;
+    }
+
+
 }
+
+
+
