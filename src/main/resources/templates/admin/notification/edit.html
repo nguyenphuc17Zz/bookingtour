@@ -20,23 +20,23 @@
 
 
     <style>
-       body {
-    background-color: #f8f9fa;
-}
+        body {
+     background-color: #f8f9fa;
+    }
 
-.container {
-width: 95%; /* Chiếm 95% chiều rộng của màn hình */
-    max-width: 1600px; /* Chiều rộng tối đa vẫn giữ nguyên */
-    margin: 0 auto; /* Căn giữa container */
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
+    .container {
+    width: 95%; /* Chiếm 95% chiều rộng của màn hình */
+     max-width: 1600px; /* Chiều rộng tối đa vẫn giữ nguyên */
+     margin: 0 auto; /* Căn giữa container */
+     background-color: #ffffff;
+     border-radius: 8px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+     padding: 20px;
+    }
 
-h2 {
-    color: #333;
-}
+    h2 {
+     color: #333;
+    }
 
 
 
@@ -47,7 +47,7 @@ h2 {
 
 
 
-<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/fr_cus_edit :: content(customer=${customer} , message=${message}
+<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/fr_notification_edit :: content(notification=${notification} , message=${message}
 )})"></div>
 
 

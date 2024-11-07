@@ -16,109 +16,22 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
-    @GetMapping("/customer/register")
-    public String showRegisterPage(Model model) {
-        model.addAttribute("customer",new CustomerRegisterDto());
-        return "user/authentication/register";
-    }
-    @PostMapping("/customer/register/send")
-    public String processRegister(@ModelAttribute("customer") CustomerRegisterDto c, Model model){
-        String email = c.getEmail();
-        String phoneNumber = c.getPhoneNumber();
-        String name = c.getName();
-        String address= c.getAddress();
-        String password = c.getPassword();
-        String confirmPass = c.getConfirmPass();
-        LocalDateTime now = LocalDateTime.now();
-        Customer cus_a = customerService.findByEmail(email);
-        if(cus_a!=null){
-            model.addAttribute("message","Email đã tồn tại");
-            return "user/authentication/register";
-        }
-        Customer cus_b= customerService.findByPhoneNumber(phoneNumber);
-        if(cus_b!=null){
-            model.addAttribute("message","Số điện thoại đã tồn tại");
-            return "user/authentication/register";
-        }
-        if(!password.equals(confirmPass)){
-            model.addAttribute("message","Nhập lại mật khẩu chưa chính xác");
-            return "user/authentication/register";
-        }
-        Customer cus = new Customer(name,email,phoneNumber,password,address,now,true);
-        this.customerService.add_update(cus);
-        model.addAttribute("message","Đăng kí thành công");
-        return "redirect:/customer/login";
-    }
-
-    @GetMapping("/customer/login")
-    public String showLoginPage(Model model){
-        model.addAttribute("customer",new Customer());
-        return "user/authentication/login";
-    }
-    @PostMapping("/customer/login/send")
-    public String processLogin(@ModelAttribute("customer") Customer c , Model model, RedirectAttributes ra){
-        Customer cus = customerService.findByEmail(c.getEmail());
-        if(cus==null){
-            model.addAttribute("message","Không tìm thấy email");
-            return "user/authentication/login";
-        }else{
-            if(!cus.getPassword().equals(c.getPassword())){
-                model.addAttribute("message","Sai mật khẩu");
-                return "user/authentication/login";
-            }else{
-                if(!cus.isStatus()){
-                    model.addAttribute("message","Tài khoản đã bị khóa");
-                    return "user/authentication/login";
-                }
-                model.addAttribute("message","Đăng nhập thành công");
-                return "user/authentication/login";
-            }
-        }
-    }
-
-    @GetMapping("/customer/forgotpass")
-    public String showForgotPassPage(Model model){
-        model.addAttribute("customer",new ForgotPassDto());
-        return "user/authentication/forgotpass";
-    }
-    @PostMapping("/customer/forgotpass/send")
-    public String processForgotPass(@ModelAttribute("customer") ForgotPassDto f , Model model){
-        Customer cus = customerService.findByEmail(f.getEmail());
-        if(cus==null){
-            model.addAttribute("message","Không tìm thấy email");
-            return "user/authentication/forgotpass";
-        }else{
-            if(!f.getNewPassword().equals(f.getConfirmPassword())){
-                model.addAttribute("message","Mật khẩu nhập lại không đúng");
-                return "user/authentication/forgotpass";
-            }else{
-                cus.setPassword(f.getNewPassword());
-                customerService.add_update(cus);
-                model.addAttribute("message","Đổi mật khẩu thành công");
-                return "user/authentication/forgotpass";
-            }
-        }
-    }
-
 
 
 
     @GetMapping("/admin/customer")
     public String showCustomerPage(Model model,
-    @RequestParam(value="searchTerm",required=false) String searchTerm,
-    @RequestParam(value = "resultsPerPage" , required = false, defaultValue = "10") int resultsPerPage,
-     @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-    @RequestParam(value = "sort" , defaultValue = "name" , required = false) String sort,
-    @RequestParam(value="order", defaultValue = "asc", required = false) String order
+                                   @RequestParam(value = "searchTerm", required = false) String searchTerm,
+                                   @RequestParam(value = "resultsPerPage", required = false, defaultValue = "10") int resultsPerPage,
+                                   @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                   @RequestParam(value = "sort", defaultValue = "name", required = false) String sort,
+                                   @RequestParam(value = "order", defaultValue = "asc", required = false) String order
     ) {
         List<Customer> customers;
         if (searchTerm != null && !searchTerm.isEmpty()) {
@@ -126,8 +39,8 @@ public class CustomerController {
         } else {
             customers = customerService.getAllCustomers();
         }
-        if(customers.isEmpty()){
-            model.addAttribute("message","Không tìm thấy kết quả phù hợp");
+        if (customers.isEmpty()) {
+            model.addAttribute("message", "Không tìm thấy kết quả phù hợp");
         }
         if ("asc".equals(order)) {
             customers.sort((c1, c2) -> {
@@ -156,10 +69,11 @@ public class CustomerController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("resultsPerPage", resultsPerPage);
         model.addAttribute("searchTerm", searchTerm);
-        model.addAttribute("sort",sort);
+        model.addAttribute("sort", sort);
         model.addAttribute("order", order);
         return "admin/customer/cus_table";
     }
+
     private Comparable<?> getPropertyValue(Customer customer, String propertyName) {
         if ("name".equals(propertyName)) {
             return customer.getName(); // String
@@ -170,6 +84,7 @@ public class CustomerController {
         }
         return null;
     }
+
     @PostMapping("admin/customer/delete/{customerId}")
     @ResponseBody
     public ResponseEntity<String> deleteCustomer(@PathVariable("customerId") int customerId) {
@@ -180,6 +95,7 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Xóa khách hàng thất bại.");
         }
     }
+
     @PostMapping("admin/customer/restore/{customerId}")
     @ResponseBody
     public ResponseEntity<String> restoreCustomer(@PathVariable("customerId") int customerId) {
@@ -190,15 +106,23 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Khôi phục khách hàng thất bại.");
         }
     }
+
     @GetMapping("admin/customer/edit/{id}")
-    public String showPageEditCustomer(@PathVariable("id") int id,Model model){
+    public String showPageEditCustomer(@PathVariable("id") int id, Model model) {
         Customer c = this.customerService.findById(id);
 
-        model.addAttribute("customer",c);
+        model.addAttribute("customer", c);
         return "admin/customer/cus_edit";
     }
+
     @PostMapping("admin/customer/update/{id}/send")
-    public String executeEditCustomer(@PathVariable("id") int id , @ModelAttribute Customer customer, RedirectAttributes ra){
+    public String executeEditCustomer(@PathVariable("id") int id, @ModelAttribute Customer customer, RedirectAttributes ra) {
+        Map<String, String> errors = validateCustomer(customer);
+
+        if (!errors.isEmpty()) {
+            errors.forEach((key, value) -> ra.addFlashAttribute("message", value));
+            return String.format("redirect:/admin/customer/edit/%d", id);
+        }
 
         Customer c = this.customerService.findById(id);
         c.setName(customer.getName());
@@ -209,19 +133,52 @@ public class CustomerController {
 
         // Lưu khách hàng đã cập nhật
         customerService.save(c);
-        ra.addFlashAttribute("message","Cập nhật thành công");
+        ra.addFlashAttribute("message", "Cập nhật thành công");
         return String.format("redirect:/admin/customer/edit/%d", id);
     }
+
     @GetMapping("admin/customer/add")
-    public String showPageAddCustomer(Model model){
-        model.addAttribute("customer",new Customer());
+    public String showPageAddCustomer(Model model) {
+        model.addAttribute("customer", new Customer());
         return "admin/customer/cus_add";
     }
+
     @PostMapping("admin/customer/add/send")
     public String executeAddCustomer(@ModelAttribute Customer customer, RedirectAttributes ra) {
+        Map<String, String> errors = validateCustomer(customer);
+
+        if (!errors.isEmpty()) {
+            errors.forEach((key, value) -> ra.addFlashAttribute("message", value));
+            return "redirect:/admin/customer/add";
+        }
+
         customer.setPassword("1");
         customerService.save(customer);
         ra.addFlashAttribute("message", "Thêm mới khách hàng thành công");
         return "redirect:/admin/customer/add";
     }
+
+    private Map<String, String> validateCustomer(Customer customer) {
+        Map<String, String> errors = new HashMap<>();
+
+        if (customer.getName() == null || customer.getName().trim().isEmpty()) {
+            errors.put("nameError", "Tên khách hàng không được để trống");
+        }
+
+        if (customer.getEmail() == null || customer.getEmail().trim().isEmpty() || !customer.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            errors.put("emailError", "Email không hợp lệ");
+        }
+
+        if (customer.getPhone_number() == null || customer.getPhone_number().trim().isEmpty() || !customer.getPhone_number().matches("^(0[3|5|7|8|9])+([0-9]{8})$")) {
+            errors.put("phoneError", "Số điện thoại không hợp lệ");
+        }
+
+        if (customer.getAddress() == null || customer.getAddress().trim().isEmpty()) {
+            errors.put("addressError", "Địa chỉ không được để trống");
+        }
+
+        return errors;
+    }
+
+
 }
