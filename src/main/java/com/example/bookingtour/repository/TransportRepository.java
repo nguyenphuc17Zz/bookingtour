@@ -14,18 +14,7 @@ import java.util.List;
 
 @Repository
 public interface TransportRepository extends JpaRepository<Transport,Integer> {
-
-
-
     @Modifying
-//    @Transactional
-//    @Query("SELECT a FROM Transport a WHERE LOWER(a.transportationType) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-//            "OR LOWER(a.tag) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
-//    public List<Transport> searchTransports(@Param("searchTerm") String searchTerm);
-
-
-
-
     @Transactional
     @Query("SELECT a FROM Transport a WHERE LOWER(a.transportation_type) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
             "OR LOWER(a.tag) LIKE LOWER(CONCAT('%', :searchTerm, '%')) ")
@@ -33,5 +22,4 @@ public interface TransportRepository extends JpaRepository<Transport,Integer> {
 
     @Query(value = "SELECT * FROM transportation WHERE transportation_id = :id", nativeQuery = true)
     Transport findTransportById(@Param("id") int id);
-
 }

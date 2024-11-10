@@ -79,10 +79,25 @@ h2 {
       <h2 class="text-center mb-4">Chỉnh sửa thông tin phương tiện</h2>
 
       <form th:action="@{/admin/transportation/update/{id}/send(id=${transport.transportationId})}" method="post" id="editTransportForm" th:object="${transport}">
-        <div class="xl-6 mb-3">
+
+
+        <div class="mb-3">
           <label for="transportationType" class="form-label">Loại phương tiện</label>
-          <input type="text" class="form-control" id="transportationType" name="transportationType" required th:field="*{transportationType}">
+          <select class="form-select" id="transportationType" name="transportationType" th:field="*{transportationType}" >
+            <option value="Xe buýt"  th:selected="${transport.transportationType == 'Xe buýt'}"
+                   >Xe buýt</option>
+            <option value="Ô tô"   th:selected="${transport.transportationType == 'Ô tô'}"
+                  >Ô tô</option>
+            <option value="Máy bay"   th:selected="${transport.transportationType == 'Máy bay'}"
+                   >Máy bay</option>
+            <option value="Tàu hỏa"   th:selected="${transport.transportationType == 'Tàu hỏa'}"
+                    >Tàu hỏa</option>
+          </select>
         </div>
+
+
+
+
 
 
         <div class="xl-6 mb-3">
@@ -95,13 +110,15 @@ h2 {
           <input type="number" class="form-control" id="seat" name="seat" required th:field="*{seat}">
         </div>
 
-
-
         <div class="mb-3">
           <label for="status" class="form-label">Trạng thái</label>
-          <select class="form-select" id="status" name="status" th:field="*{status}"  disabled >
-            <option value="1" th:selected="*{status}">Hoạt động</option>
-            <option value="0" th:selected="*{!status}">Không hoạt động</option>
+          <select class="form-select" id="status" name="status" th:field="*{status}" >
+            <option value="1"  th:if="${transport.status == 1}"
+                    th:selected="*{status}">Hoạt động</option>
+            <option value="0"   th:if="${transport.status == 0}"
+                    th:selected="*{status}">Không hoạt động</option>
+              <option value="2"   th:if="${transport.status == 2}"
+                      th:selected="*{status}">Đã có chuyến</option>
           </select>
         </div>
 

@@ -13,12 +13,12 @@ public class Transport {
     private String transportation_type;
     private String tag;
     private int seat;
-    private boolean status;
+    private int status;
 
     public Transport() {
     }
 
-    public Transport(int transportation_id, String transportation_type, String tag ,int seat, boolean status) {
+    public Transport(int transportation_id, String transportation_type, String tag ,int seat, int status) {
         this.transportation_id = transportation_id;
         this.transportation_type = transportation_type;
         this.tag = tag;
@@ -54,10 +54,10 @@ public class Transport {
         return seat;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
-    public boolean getStatus() {
+    public int getStatus() {
         return status;
     }
 

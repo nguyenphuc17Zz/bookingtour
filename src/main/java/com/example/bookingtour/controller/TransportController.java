@@ -7,6 +7,7 @@ import com.example.bookingtour.entity.Admin;
 import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.entity.Transport;
 import com.example.bookingtour.service.AdminService;
+import com.example.bookingtour.service.BookingService;
 import com.example.bookingtour.service.CustomerService;
 import com.example.bookingtour.service.TransportService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +30,16 @@ import java.util.Objects;
 public class TransportController {
     @Autowired
     private TransportService transportService;
+
+
+
+    @Autowired
+    public TransportController(TransportService transportService) {
+        this.transportService = transportService;
+    }
+
+
+
     private Comparable<?> getPropertyValue(Transport transport, String propertyName) {
         if ("transportation_type".equals(propertyName)) {
             return transport.getTransportationType(); // String
@@ -54,11 +65,6 @@ public class TransportController {
         List<Transport> transports;
 
         if (searchTerm != null && !searchTerm.isEmpty()) {
-//            if(searchTerm.equals("Quản lý tour")){
-//                searchTerm="tour_manager";
-//            }else if(searchTerm.equals("Quản lý đặt lịch")){
-//                searchTerm="booking_manager";
-//            }
             transports = transportService.searchTransports(searchTerm);
         } else {
             transports = transportService.getAllTransports();
