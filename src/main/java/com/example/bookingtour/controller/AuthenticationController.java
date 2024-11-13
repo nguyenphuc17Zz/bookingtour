@@ -2,22 +2,27 @@ package com.example.bookingtour.controller;
 
 import com.example.bookingtour.dto.CustomerRegisterDto;
 import com.example.bookingtour.dto.ForgotPassDto;
+import com.example.bookingtour.dto.LoginCustomerDto;
 import com.example.bookingtour.entity.Admin;
 import com.example.bookingtour.entity.Customer;
+import com.example.bookingtour.security.JWTUtil;
 import com.example.bookingtour.service.AdminService;
 import com.example.bookingtour.service.CustomerService;
+import com.nimbusds.jose.JOSEException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class AuthenticationController {
@@ -171,16 +176,31 @@ public class AuthenticationController {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // AUTHENTICATION CUSTOMER
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/customer/register")
+
+    @GetMapping("/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("customer", new CustomerRegisterDto());
         return "user/authentication/register";
     }
 
-    @PostMapping("/customer/register/send")
+    @PostMapping("/register/send")
     public String processRegister(@ModelAttribute("customer") CustomerRegisterDto c, Model model) {
         String email = c.getEmail();
         String phoneNumber = c.getPhoneNumber();
@@ -209,40 +229,63 @@ public class AuthenticationController {
         return "redirect:/customer/login";
     }
 
-    @GetMapping("/customer/login")
+    @GetMapping("/login")
     public String showLoginPageCus(Model model) {
         model.addAttribute("customer", new Customer());
         return "user/authentication/login";
     }
 
-    @PostMapping("/customer/login/send")
-    public String processLogin(@ModelAttribute("customer") Customer c, Model model, RedirectAttributes ra) {
-        Customer cus = customerService.findByEmail(c.getEmail());
+    @PostMapping("/login/send")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> processLogin(@RequestBody LoginCustomerDto log) {
+        Map<String, Object> response = new HashMap<>();
+        Customer cus = customerService.findByEmail(log.getEmail());
         if (cus == null) {
-            model.addAttribute("message", "Không tìm thấy email");
-            return "user/authentication/login";
+            response.put("success", false);
+            response.put("message", "Không tìm thấy email");
+            return ResponseEntity.badRequest().body(response);
         } else {
-            if (!cus.getPassword().equals(c.getPassword())) {
-                model.addAttribute("message", "Sai mật khẩu");
-                return "user/authentication/login";
+            if (!cus.getPassword().equals(log.getPassword())) {
+                response.put("success", false);
+                response.put("message", "Sai mật khẩu");
+                return ResponseEntity.badRequest().body(response);
             } else {
                 if (!cus.isStatus()) {
-                    model.addAttribute("message", "Tài khoản đã bị khóa");
-                    return "user/authentication/login";
+                    response.put("success", false);
+                    response.put("message", "Tài khoản đã bị khóa");
+                    return ResponseEntity.badRequest().body(response);
                 }
-                model.addAttribute("message", "Đăng nhập thành công");
-                return "user/authentication/login";
+                try {
+                    // Đăng nhập thành công, trả về JWT
+                    String jwt = JWTUtil.createJWT(cus);  // Tạo JWT cho người dùng
+                    response.put("success", true);
+                    response.put("message", "Đăng nhập thành công");
+                    response.put("jwt", jwt);  // Gửi JWT token về client
+                    return ResponseEntity.ok(response);
+                }catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    response.put("success", false);
+                    response.put("message", "Có lỗi xảy ra: " + e.getMessage());  // Thêm thông báo lỗi chi tiết
+                    return ResponseEntity.badRequest().body(response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    response.put("success", false);
+                    response.put("message", "Có lỗi xảy ra: " + e.getMessage());  // Thêm thông báo lỗi chi tiết
+                    return ResponseEntity.badRequest().body(response);
+                }
+
             }
         }
     }
 
-    @GetMapping("/customer/forgotpass")
+
+    @GetMapping("/forgotpass")
     public String showForgotPassPageCus(Model model) {
         model.addAttribute("customer", new ForgotPassDto());
         return "user/authentication/forgotpass";
     }
 
-    @PostMapping("/customer/forgotpass/send")
+    @PostMapping("/forgotpass/send")
     public String processForgotPass(@ModelAttribute("customer") ForgotPassDto f, Model model) {
         Customer cus = customerService.findByEmail(f.getEmail());
         if (cus == null) {
@@ -258,6 +301,23 @@ public class AuthenticationController {
                 model.addAttribute("message", "Đổi mật khẩu thành công");
                 return "user/authentication/forgotpass";
             }
+        }
+    }
+    @GetMapping("/api/user-info")
+    public ResponseEntity<?> getUserInfo(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            try {
+                // Xác minh và giải mã token
+                String userEmail = JWTUtil.parseJWT(token);
+                Customer customer = customerService.findByEmail(userEmail);
+                return ResponseEntity.ok(customer);
+            } catch (JOSEException | ParseException e) {
+                return ResponseEntity.status(401).body("Token không hợp lệ");
+            }
+        } else {
+            return ResponseEntity.status(401).body("Token không hợp lệ");
         }
     }
 }
