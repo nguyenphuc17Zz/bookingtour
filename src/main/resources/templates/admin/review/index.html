@@ -180,16 +180,19 @@
 
         </nav>
 
+
+
+
         <div class="container mt-5" th:fragment="content(bookings,message, currentPage, totalPages, resultsPerPage, sort, order)">
             <div class="card p-4">
-                <h3>Quản lý phương tiện</h3>
+                <h3>Quản lý </h3>
                 <div class="d-flex justify-content-between align-items-center my-3">
-<!--                                <form th:action="@{/admin/booking/add}" method="get">-->
-<!--                                    <button type="submit" class="btn btn-primary">Thêm mới</button>-->
-<!--                                </form>-->
+                    <!--                                <form th:action="@{/admin/booking/add}" method="get">-->
+                    <!--                                    <button type="submit" class="btn btn-primary">Thêm mới</button>-->
+                    <!--                                </form>-->
                     <div class="d-flex align-items-center">
                         <label for="results-per-page" class="form-label me-2 mb-0">Kết quả:</label>
-                        <form action="#" th:action="@{/admin/booking}" method="get" class="d-flex">
+                        <form action="#" th:action="@{/admin/review}" method="get" class="d-flex">
                             <select id="results-per-page" name="resultsPerPage" class="form-select me-3" onchange="this.form.submit()">
                                 <option th:value="10" th:selected="${resultsPerPage == 10}">10</option>
                                 <option th:value="20" th:selected="${resultsPerPage == 20}">20</option>
@@ -210,51 +213,44 @@
                     <thead class="table-light">
                     <tr>
                         <th scope="col">
-                            <a th:href="@{/admin/booking(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='tourName', order=${sort == 'tourName' and order == 'asc' ? 'desc' : 'asc'})}">
-                              Tên chuyến đi
+                            <a th:href="@{/admin/review(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='tourName', order=${sort == 'tourName' and order == 'asc' ? 'desc' : 'asc'})}">
+                                Tên chuyến đi
                             </a>
                         </th>
 
                         <th scope="col">
-                            <a th:href="@{/admin/booking(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='name', order=${sort == 'name' and order == 'asc' ? 'desc' : 'asc'})}">
-                            Tên khách hàng
+                            <a th:href="@{/admin/review(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='tourType', order=${sort == 'tourType' and order == 'asc' ? 'desc' : 'asc'})}">
+                                Loại du lịch
                             </a>
                         </th>
 
                         <th scope="col">
-                            <a th:href="@{/admin/booking(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='transportationType', order=${sort == 'transportationType' and order == 'asc' ? 'desc' : 'asc'})}">
-                              Phương tiện
+                            <a th:href="@{/admin/review(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='cusName', order=${sort == 'cusName' and order == 'asc' ? 'desc' : 'asc'})}">
+                             Tên khách hàng
                             </a>
                         </th>
 
                         <th scope="col">
-                            <a th:href="@{/admin/booking(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='bookingDate', order=${sort == 'bookingDate' and order == 'asc' ? 'desc' : 'asc'})}">
-                          Ngày đăng kí
+                            <a th:href="@{/admin/review(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='phoneNumber', order=${sort == 'phoneNumber' and order == 'asc' ? 'desc' : 'asc'})}">
+                                Số điện thoại
                             </a>
                         </th>
 
                         <th scope="col">
-                            <a th:href="@{/admin/booking(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='numGuests', order=${sort == 'numGuests' and order == 'asc' ? 'desc' : 'asc'})}">
-                                Số người
-                            </a>
-                        </th>
-
-
-                        <th scope="col">
-                            <a th:href="@{/admin/booking(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='totalPrice', order=${sort == 'totalPrice' and order == 'asc' ? 'desc' : 'asc'})}">
-                               Tổng tiền
+                            <a th:href="@{/admin/review(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='rating', order=${sort == 'rating' and order == 'asc' ? 'desc' : 'asc'})}">
+                            Đánh giá
                             </a>
                         </th>
 
                         <th scope="col">
-                            <a th:href="@{/admin/booking(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='phoneNumber', order=${sort == 'phoneNumber' and order == 'asc' ? 'desc' : 'asc'})}">
-                               Số điện thoại
+                            <a th:href="@{/admin/review(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='reviewDate', order=${sort == 'reviewDate' and order == 'asc' ? 'desc' : 'asc'})}">
+                              Ngày đánh giá
                             </a>
                         </th>
 
                         <th scope="col">
-                            <a th:href="@{/admin/booking(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='bookingStatus', order=${sort == 'bookingStatus' and order == 'asc' ? 'desc' : 'asc'})}">
-                              Trạng thái
+                            <a th:href="@{/admin/review(page=${currentPage}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort='status', order=${sort == 'status' and order == 'asc' ? 'desc' : 'asc'})}">
+                                Trạng thái
                             </a>
                         </th>
 
@@ -262,57 +258,41 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="booking : ${bookings}">
 
+                    <tr th:each="review : ${reviews}">
+                        <td th:text="${review[7]}"></td>
+                        <td th:text="${review[8]}"></td>
+                        <td th:text="${review[10]}"></td>
+                        <td th:text="${review[12]}"></td>
+                        <td th:text="${review[3]}"></td>
+                        <td th:text="${review[5]}"></td>
 
-                        <td th:text="${booking[14]}"></td>
-                        <td th:text="${booking[11]}"></td>
-                        <td th:text="${booking[9]}"></td>
-                        <td th:text="${booking[3]}"></td>
-                        <td th:text="${booking[4]}"></td>
-                        <td th:text="${booking[5]}"></td>
-                        <td th:text="${booking[13]}"></td>
-
-
-                        <td th:switch="${booking[8]}">
+                        <td th:switch="${review[6]}">
                             <span th:case="0" th:class="'status-inactive'"  th:text="'Đã hủy'"></span>
-                            <span th:case="1" th:class="'status-warning'"th:text="'Đang chờ'"></span>
-                            <span th:case="2" th:class="'status-active'" th:text="'Đã duyệt'"></span>
+                            <span th:case="1" th:class="'status-active'" th:text="'Đã duyệt'"></span>
                             <span th:case="*">Unknown Status</span>
                         </td>
 
-
                         <td class="table-actions">
-
-
                             <a class="text-decoration-none text-primary me-2"
-                               th:href="@{/admin/booking/edit/{id}(id=${booking[0]})}"
-                               title="Chỉnh sửa Phương tiện">
+                               th:href="@{/admin/review/edit/{id}(id=${review[0]})}"
+                               title="Chỉnh sửa Đánh giá">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
 
-<!--                            <a-->
-<!--                               th:if="${transport.status == 2}">-->
-<!--                            </a>-->
-
-
-
-
                             <a class="text-decoration-none text-primary me-2"
                                onclick="return confirm('Bạn có muốn xóa không?')"
-                               th:if="${booking[8] == 1}"
-                                 th:href="@{/admin/booking/delete/{id}(id=${booking[0]})}">
+                               th:if="${review[6] == 1}"
+                               th:href="@{/admin/review/delete/{id}(id=${review[0]})}">
                                 <i class="bi bi-trash text-danger"></i>
                             </a>
 
                             <a class="text-decoration-none text-primary me-2"
                                onclick="return confirm('Bạn có muốn khôi phục không?')"
-                               th:if="${booking[8] == 0}"
-                               th:href="@{/admin/booking/restore/{id}(id=${booking[0]})}">
+                               th:if="${review[6] == 0}"
+                               th:href="@{/admin/review/restore/{id}(id=${review[0]})}">
                                 <i class="bi bi-arrow-repeat text-success"></i>
                             </a>
-
-
                         </td>
 
 
@@ -324,19 +304,19 @@
                     <div th:text="'Đang hiển thị trang ' + ${currentPage} + ' của ' + ${totalPages}"></div>
                     <nav>
                         <ul class="pagination">
-                                                            <!-- Trang trước -->
+                            <!-- Trang trước -->
                             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                                <a class="page-link" th:href="@{/admin/booking(page=${currentPage - 1}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort=${sort}, order=${order})}" tabindex="-1">&laquo;</a>
+                                <a class="page-link" th:href="@{/admin/review(page=${currentPage - 1}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort=${sort}, order=${order})}" tabindex="-1">&laquo;</a>
                             </li>
 
                             <!-- Các trang -->
                             <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:classappend="${pageNum == currentPage} ? 'active'">
-                                <a class="page-link" th:href="@{/admin/booking(page=${pageNum}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm} , sort=${sort}, order=${order} )}" th:text="${pageNum}"></a>
+                                <a class="page-link" th:href="@{/admin/review(page=${pageNum}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm} , sort=${sort}, order=${order} )}" th:text="${pageNum}"></a>
                             </li>
 
                             <!-- Trang tiếp theo -->
                             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                                <a class="page-link" th:href="@{/admin/booking(page=${currentPage + 1}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort=${sort}, order=${order})}">&raquo;</a>
+                                <a class="page-link" th:href="@{/admin/review(page=${currentPage + 1}, resultsPerPage=${resultsPerPage}, searchTerm=${searchTerm}, sort=${sort}, order=${order})}">&raquo;</a>
                             </li>
                         </ul>
                     </nav>
@@ -348,10 +328,10 @@
 
 
 
-<!--         content-wrapper ends-->
-<!--         partial:partials/_footer.html-->
+        <!--         content-wrapper ends-->
+        <!--         partial:partials/_footer.html-->
 
-<!--         partial-->
+        <!--         partial-->
     </div>
     <!-- main-panel ends -->
 
