@@ -44,7 +44,9 @@ public class ReviewService {
         review.setStatus(1);
         reviewRepository.save(review);
     }
-
+    public void save(Review r){
+        reviewRepository.save(r);
+    }
 }
 
 

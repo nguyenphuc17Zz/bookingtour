@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Tourist - Travel Agency HTML Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link th:href="@{/template_user/lib/animate/animate.min.css}" rel="stylesheet">
+
+    <link th:href="@{/template_user/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
+    <link th:href="@{/template_user/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet"/>
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link th:href="@{/template_user/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link th:href="@{/template_user/css/style.css}" rel="stylesheet">
+    <link th:href="@{/template_user/css/tour_detail.css}" rel="stylesheet">
+
+</head>
+<body>
+
+
+<div th:replace="user/header :: header"></div>
+
+    <div class="tour-detail-container">
+        <!-- Tên Tour -->
+        <h1 class="tour-title" th:text="${tour.tour_name}"></h1>
+
+        <!-- Info Product Row -->
+        <div class="info-product row">
+            <!-- Cột 1: Thumbnail và Rating -->
+            <div class="column">
+                <img th:src="@{'/thumbnails_img/' + ${tour.thumbnail}}" alt="Tour Thumbnail" class="thumbnail">
+                <div class="rating">
+                    <small th:if="${tour.tourRating > 0}" class="fa fa-star text-primary" th:each="i : ${#numbers.sequence(1, tour.tourRating)}"></small>
+                    <small th:if="${tour.tourRating != 5}" class="fa fa-star text-muted" th:each="i : ${#numbers.sequence(1, 5 - tour.tourRating)}"></small>
+                    <p>X đánh giá</p>
+                </div>
+            </div>
+
+            <!-- Cột 2: Thông tin chi tiết -->
+            <div class="column info-container">
+                <div class="info-item">
+                    <span class="info-label">📍 Điểm đến:</span>
+                    <span class="info-value" th:text="${tour.destination}"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">📅 Ngày bắt đầu:</span>
+                    <span class="info-value" th:text="${tour.startDateFormatted}"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">📅 Ngày kết thúc:</span>
+                    <span class="info-value" th:text="${tour.endDateFormatted}"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">💵 Giá:</span>
+                    <span class="info-value" th:text="${tour.formatCurrencyVnd}"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">👥 Chỗ còn nhận:</span>
+                    <span class="info-value" th:text="${tour.available_seats}"></span>
+                </div>
+                <button class="btn-book-now">Đặt ngay</button>
+            </div>
+
+        </div>
+
+        <!-- Chi tiết Tour -->
+        <div class="tour-description">
+            <h2>Chi tiết tour</h2>
+            <p th:utext="${tour.tour_description}"></p>
+        </div>
+
+
+        <!-- Phần Review -->
+        <div class="reviews">
+            <h2>Đánh giá từ khách hàng</h2>
+            <div class="review">
+                <img src="https://via.placeholder.com/50" alt="User Avatar" class="user-avatar">
+                <div class="review-content">
+                    <div class="review-header">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="review-date">2024-11-10</span>
+                    </div>
+                    <p class="review-comment">Chuyến đi thật tuyệt vời, mọi thứ đều rất chu đáo và đầy thú vị!</p>
+                </div>
+            </div>
+
+            <!-- Thêm phần nhập bình luận -->
+            <div class="add-comment" id="add-comment-section">
+                <h3>Thêm đánh giá của bạn</h3>
+                <!-- Phần chọn sao -->
+                <div class="rating-stars" id="rating-stars">
+                    <i class="fa fa-star" data-index="1"></i>
+                    <i class="fa fa-star" data-index="2"></i>
+                    <i class="fa fa-star" data-index="3"></i>
+                    <i class="fa fa-star" data-index="4"></i>
+                    <i class="fa fa-star" data-index="5"></i>
+                </div>
+                <textarea id="comment-input" placeholder="Viết đánh giá của bạn..." rows="4"></textarea>
+                <button id="submit-comment" class="btn-submit">Gửi đánh giá</button>
+            </div>
+        </div>
+    </div>
+
+
+
+<div th:replace="user/footer :: footer"></div>
+
+<!-- JavaScript Libraries -->
+<script th:src="@{https://code.jquery.com/jquery-3.4.1.min.js}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/template_user/lib/wow/wow.min.js}"></script>
+<script th:src="@{/template_user/lib/wow/wow.min.js}"></script>
+<script th:src="@{/template_user/lib/waypoints/waypoints.min.js}"></script>
+<script th:src="@{/template_user/lib/owlcarousel/owl.carousel.min.js}"></script>
+<script th:src="@{/template_user/lib/tempusdominus/js/moment.min.js}"></script>
+<script th:src="@{/template_user/lib/tempusdominus/js/moment-timezone.min.js}"></script>
+<script th:src="@{/template_user/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js}"></script>
+
+<!-- Template Javascript -->
+<script th:src="@{/template_user/js/main.js}"></script>
+<script th:src="@{/template_user/js/header.js}"></script>
+<script th:src="@{/template_user/js/tour_detail.js}"></script>
+
+</body>
+</html>

@@ -49,20 +49,25 @@
         </div>
         <div class="position-relative w-75 mx-auto animated slideInDown search-bar">
             <form th:action="@{/tour}" method="get">
-                <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="VD: Phú quốc" name="search" th:value="${search}">
-                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Search</button>
+                <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text"
+                       placeholder="VD: Phú quốc" name="search" th:value="${search}">
+                <button type="submit" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2"
+                        style="margin-top: 7px;">Search
+                </button>
             </form>
 
         </div>
         <div class="filter-section">
             <form th:action="@{/tour}" method="get" class="filter-form">
-                <input type="text" id="search" name="search" class="form-control"  placeholder="Search" th:value="${search}" hidden>
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search"
+                       th:value="${search}" hidden>
                 <!-- Bộ lọc loại tour -->
                 <div class="filter-item">
                     <label for="tour_type">Tất cả</label>
                     <select id="tour_type" name="tour_type" class="form-control" th:value="${tourFilters.tourType}">
                         <option value="">Tất cả</option>
-                        <option value="nghỉ dưỡng" th:selected="${tourFilters.tourType == 'nghỉ dưỡng'}">Nghỉ dưỡng</option>
+                        <option value="nghỉ dưỡng" th:selected="${tourFilters.tourType == 'nghỉ dưỡng'}">Nghỉ dưỡng
+                        </option>
                         <option value="khám phá" th:selected="${tourFilters.tourType == 'khám phá'}">Khám phá</option>
                         <option value="mạo hiểm" th:selected="${tourFilters.tourType == 'mạo hiểm'}">Mạo hiểm</option>
                         <option value="văn hóa" th:selected="${tourFilters.tourType == 'văn hóa'}">Văn hóa</option>
@@ -86,19 +91,22 @@
                 <!-- Bộ lọc số ghế còn -->
                 <div class="filter-item">
                     <label for="available_seats">Số ghế còn</label>
-                    <input type="number" id="available_seats" name="available_seats" class="form-control" min="0" placeholder="Số ghế tối thiểu" th:value="${tourFilters.availableSeats}">
+                    <input type="number" id="available_seats" name="available_seats" class="form-control" min="0"
+                           placeholder="Số ghế tối thiểu" th:value="${tourFilters.availableSeats}">
                 </div>
 
                 <!-- Bộ lọc từ ngày -->
                 <div class="filter-item">
                     <label for="start_date">Từ ngày</label>
-                    <input type="date" id="start_date" name="start_date" class="form-control" th:value="${tourFilters.startDate}">
+                    <input type="date" id="start_date" name="start_date" class="form-control"
+                           th:value="${tourFilters.startDate}">
                 </div>
 
                 <!-- Bộ lọc đến ngày -->
                 <div class="filter-item">
                     <label for="end_date">Đến ngày</label>
-                    <input type="date" id="end_date" name="end_date" class="form-control" th:value="${tourFilters.endDate}">
+                    <input type="date" id="end_date" name="end_date" class="form-control"
+                           th:value="${tourFilters.endDate}">
                 </div>
 
                 <div class="filter-item">
@@ -110,8 +118,12 @@
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s" th:each="tour: ${tours}">
                 <div class="package-item">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" th:src="@{'/thumbnails_img/'+ ${tour.thumbnail}}" alt="">
+                        <a th:href="@{/tour_detail/{id}(id=${tour.tour_id})}">
+                            <img class="img-fluid" th:src="@{'/thumbnails_img/' + ${tour.thumbnail}}"
+                                 alt="Tour Thumbnail">
+                        </a>
                     </div>
+
                     <div class="d-flex border-bottom">
                         <small class="flex-fill text-center border-end py-2"><i
                                 class="fa fa-map-marker-alt text-primary me-2"
@@ -129,19 +141,11 @@
                         <!-- FORMAT VND CÁI NÀY-->
                         <h3 class="mb-0" th:text="${tour.formatCurrencyVnd}"></h3>
                         <div class="mb-3">
-                            <!-- Sao được đánh giá --> <small th:if="${tour.tourRating > 0}"
-                                                              class="fa fa-star text-primary"
-                                                              th:each="i : ${#numbers.sequence(1, tour.tourRating)}">
-
-                        </small>
+                            <!-- Sao được đánh giá -->
+                            <small th:if="${tour.tourRating > 0}" class="fa fa-star text-primary" th:each="i : ${#numbers.sequence(1, tour.tourRating)}"></small>
                             <!-- Sao chưa được đánh giá -->
-                            <small th:if="${tour.tourRating == 0}" class="fa fa-star text-muted"
-                                   th:each="i : ${#numbers.sequence(1, 5)}">
-
-                            </small>
-                            <small th:if="${tour.tourRating != 5 && tour.tourRating != 0}" class="fa fa-star text-muted"
-                                   th:each="i : ${#numbers.sequence(1, 5 - tour.tourRating)}">
-                            </small>
+                            <small th:if="${tour.tourRating == 0}" class="fa fa-star text-muted" th:each="i : ${#numbers.sequence(1, 5)}"></small>
+                            <small th:if="${tour.tourRating != 5 && tour.tourRating != 0}" class="fa fa-star text-muted" th:each="i : ${#numbers.sequence(1, 5 - tour.tourRating)}"></small>
 
                         </div>
                         <p th:text="${tour.tour_name}"></p>
@@ -163,7 +167,8 @@
 <!-- PAGINATION -->
 <div class="pagination">
     <!-- Previous page -->
-    <a th:if="${page > 1}" th:href="@{/tour(page=${page - 1}, search=${search},tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.end_date})}">&laquo;</a>
+    <a th:if="${page > 1}"
+       th:href="@{/tour(page=${page - 1}, search=${search},tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}">&laquo;</a>
 
     <!-- First page with ... if there are pages before -->
     <div th:if="${page - 3 > 0}">
@@ -173,10 +178,12 @@
 
     <!-- Previous pages -->
     <div th:if="${page - 2 > 0}">
-        <a th:href="@{/tour(page=${page - 2}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}" th:text="${page - 2}"></a>
+        <a th:href="@{/tour(page=${page - 2}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}"
+           th:text="${page - 2}"></a>
     </div>
     <div th:if="${page - 1 > 0}">
-        <a th:href="@{/tour(page=${page - 1}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}" th:text="${page - 1}"></a>
+        <a th:href="@{/tour(page=${page - 1}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}"
+           th:text="${page - 1}"></a>
     </div>
 
     <!-- Current page -->
@@ -184,26 +191,25 @@
 
     <!-- Next pages -->
     <div th:if="${page + 1 <= total}">
-        <a th:href="@{/tour(page=${page + 1}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}" th:text="${page + 1}"></a>
+        <a th:href="@{/tour(page=${page + 1}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}"
+           th:text="${page + 1}"></a>
     </div>
     <div th:if="${page + 2 <= total}">
-        <a th:href="@{/tour(page=${page + 2}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}" th:text="${page + 2}"></a>
+        <a th:href="@{/tour(page=${page + 2}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}"
+           th:text="${page + 2}"></a>
     </div>
 
     <!-- Last page with ... if there are pages after -->
     <div th:if="${page + 3 <= total}">
         <span>...</span>
-        <a th:href="@{/tour(page=${total}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}" th:text="${total}"></a>
+        <a th:href="@{/tour(page=${total}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}"
+           th:text="${total}"></a>
     </div>
 
     <!-- Next page -->
-    <a th:if="${page < total}" th:href="@{/tour(page=${page + 1}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}">&raquo;</a>
+    <a th:if="${page < total}"
+       th:href="@{/tour(page=${page + 1}, search=${search}, tour_type=${tourFilters.tourType}, rating=${tourFilters.rating}, available_seats=${tourFilters.availableSeats}, start_date=${tourFilters.startDate}, end_date=${tourFilters.endDate})}">&raquo;</a>
 </div>
-
-
-
-
-
 
 
 <!-- Booking Start -->

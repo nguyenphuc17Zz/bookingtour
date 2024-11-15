@@ -1,0 +1,198 @@
+
+.tour-detail-container {
+  max-width: 1600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tour-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.column {
+  flex: 1;
+}
+.info-container {
+  background:transparent;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.info-value {
+  font-size: 16px;
+  font-weight: normal;
+  color: #555;
+  text-align: right;
+}
+
+.thumbnail {
+  width: 628px; /* Chiều rộng cố định */
+  height: 421px; /* Chiều cao cố định */
+  object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+  border-radius: 8px; /* Bo tròn góc (tùy chỉnh nếu cần) */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng đổ bóng */
+}
+
+.rating i {
+  color: #f5c518;
+  margin-right: 4px;
+}
+
+.tour-description, .reviews {
+  margin-top: 20px;
+}
+
+.tour-description h2, .reviews h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #555555;
+}
+
+.btn-book-now {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #86B817;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: all 0.3s ease; /* Thêm transition để hiệu ứng mượt mà */
+}
+
+.btn-book-now:hover {
+  filter: brightness(1.1); /* Sáng hơn một chút */
+}
+
+.reviews .review {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.review-content {
+  flex: 1;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.review-comment {
+  color: #555555;
+}
+.tour-description {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tour-description h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.tour-description p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* CSS cho hình ảnh trong mô tả */
+.tour-description img {
+  max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+  height: auto; /* Giữ tỷ lệ gốc của hình ảnh */
+  margin: 10px 0; /* Tạo khoảng cách giữa hình ảnh và các phần khác */
+  border-radius: 8px; /* Bo góc hình ảnh cho mềm mại */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
+  display: block; /* Đảm bảo hình ảnh không tràn ngang */
+}
+.add-comment {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-comment h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#comment-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.btn-submit {
+  display: inline-block;
+  background: #86b817;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-submit:hover {
+  background: #76a80e;
+}
+.rating-stars i.selected {
+  color: #FFD700; /* Màu sao đã chọn */
+}
