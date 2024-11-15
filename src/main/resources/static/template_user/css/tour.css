@@ -1,0 +1,87 @@
+.img-fluid {
+    width: 378px;
+    height: 257px;
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    cursor:pointer;
+}
+.filter-section {
+    margin: 20px;
+}
+
+.filter-form {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các phần tử di chuyển xuống dòng khi không đủ không gian */
+    gap: 20px; /* Khoảng cách giữa các phần tử */
+    background-color: transparent; /* Làm nền trong suốt */
+    padding: 10px;
+}
+
+.filter-item {
+    flex: 1;
+    min-width: 200px; /* Đảm bảo mỗi phần tử có chiều rộng tối thiểu */
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.filter-item .btn {
+    margin-top:30px;
+    background-color: #86B817; /* Nền của nút cũng trong suốt */
+    border:none;
+    color: white;
+}
+
+.filter-item .btn:hover {
+    background-color: green;
+    color: white;
+}
+.pagination1 {
+    display: flex;
+    justify-content: center; /* Căn giữa phân trang */
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px;
+    margin-left:900px;
+}
+.pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa phân trang */
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.pagination a {
+    color: #86B817;
+    padding: 8px 12px;
+    margin: 0 4px;
+    text-decoration: none;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s; /* Hiệu ứng khi di chuột */
+}
+
+.pagination a:hover {
+    background-color: #86B817;
+    color: white;
+}
+
+.pagination a.active {
+    background-color: #86B817;
+    color: white;
+    border: 1px solid #86B817;
+}
+
+.pagination a:first-child,
+.pagination a:last-child {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 8px 10px;
+}
+
+
+

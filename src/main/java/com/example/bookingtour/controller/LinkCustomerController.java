@@ -38,11 +38,7 @@ public class LinkCustomerController {
         return "user/destination/destination";
     }
 
-    @GetMapping("/package")
-    public String packagePage(Model model) {
-        model.addAttribute("page", "package");
-        return "user/package/package";
-    }
+
 
     @GetMapping("/testimonial")
     public String testimonial(Model model) {

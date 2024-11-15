@@ -41,4 +41,7 @@ public class TourService {
         Tour t = tourRepository.findById(id).orElseThrow(() -> new RuntimeException("Tour not found"));
         return t;
     }
+    public List<Tour> getAllToursActive(){
+        return tourRepository.getAllToursActive();
+    }
 }

@@ -25,6 +25,43 @@ public class Tour {
     private double rating;
     private boolean status;
 
+    private String startDateFormatted;
+    private String endDateFormatted;
+    private String formatCurrencyVnd;
+    private int tourRating;
+
+    public int getTourRating() {
+        return tourRating;
+    }
+
+    public void setTourRating(int tourRating) {
+        this.tourRating = tourRating;
+    }
+
+    public String getStartDateFormatted() {
+        return startDateFormatted;
+    }
+
+    public void setStartDateFormatted(String startDateFormatted) {
+        this.startDateFormatted = startDateFormatted;
+    }
+
+    public String getEndDateFormatted() {
+        return endDateFormatted;
+    }
+
+    public void setEndDateFormatted(String endDateFormatted) {
+        this.endDateFormatted = endDateFormatted;
+    }
+
+    public String getFormatCurrencyVnd() {
+        return formatCurrencyVnd;
+    }
+
+    public void setFormatCurrencyVnd(String formatCurrencyVnd) {
+        this.formatCurrencyVnd = formatCurrencyVnd;
+    }
+
     public Tour() {
     }
 
