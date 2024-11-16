@@ -1,16 +1,22 @@
 package com.example.bookingtour.controller;
 
 import com.example.bookingtour.entity.Booking;
+import com.example.bookingtour.entity.Notification;
+import com.example.bookingtour.entity.Tour;
 import com.example.bookingtour.entity.Transport;
 import com.example.bookingtour.repository.BookingRepository;
 import com.example.bookingtour.repository.TransportRepository;
 import com.example.bookingtour.service.BookingService;
+import com.example.bookingtour.service.NotificationService;
+import com.example.bookingtour.service.TourService;
 import com.example.bookingtour.service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import java.util.List;
 
@@ -19,10 +25,16 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
     private TransportService transportService;
+    private TourService tourService;
+    private NotificationService notificationService;
+
+
 
     @Autowired
-    public BookingController(TransportService transportService) {
+    public BookingController(TransportService transportService, TourService tourService,NotificationService notificationService ) {
         this.transportService = transportService;
+        this.tourService = tourService;
+        this.notificationService = notificationService;
     }
 
 
@@ -106,6 +118,14 @@ public class BookingController {
     @GetMapping("admin/booking/delete/{id}")
     public String deleteBooking(@PathVariable("id") int id){
         try {
+            LocalDate now = LocalDate.now();
+            Booking b = this.bookingService.findById(id);
+            Notification noti = new Notification();
+            noti.setCustomer_id(b.getCustomerId());
+            noti.setMessage("Tour đã bị hủy");
+            noti.setStatus("unread");
+            noti.setSend_date(now);
+            notificationService.saveNotification(noti);
             bookingService.deleteBooking(id);
             return "redirect:/admin/booking";
 
@@ -142,17 +162,40 @@ public class BookingController {
             @ModelAttribute Booking booking,
             RedirectAttributes ra,
             @RequestParam(value = "transportationId", required = false) Integer transportationId,
-            @RequestParam("bookingStatus") int bookingStatus) {
-
+            @RequestParam("bookingStatus") int bookingStatus,
+            @RequestParam("numGuests") int numGuests,
+            @RequestParam("tourId") int tourId,
+            @RequestParam("customerId") int customerId
+    )
+    {
         Booking b = this.bookingService.findById(id);
+        Tour t = this.tourService.findById(tourId);
+        LocalDate now = LocalDate.now();
+
+        if(numGuests > t.getAvailable_seats()){
+            ra.addFlashAttribute("message", "Không đủ chỗ tour");
+            return String.format("redirect:/admin/booking/edit/%d", id);
+        }
 
         if (transportationId != null) {
             b.setTransportationId(transportationId);
         }
 
-        b.setBookingStatus(bookingStatus);
-        bookingService.save(b);
+//        Kiểm tra trạng thái từ đang chờ thành trạng thái duyệt
+//        case 1 trạng thái phải được duyệt, case 2 trạng thái trong db phải khác trạng thái submit
+        if(bookingStatus == 2 && (b.getBookingStatus() != bookingStatus)){
+            b.setBookingStatus(bookingStatus);
+            Notification noti = new Notification();
+            t.setAvailable_seats(t.getAvailable_seats()-numGuests);
+            noti.setCustomer_id(customerId);
+            noti.setMessage("Tour đã được duyệt thành công");
+            noti.setStatus("unread");
+            noti.setSend_date(now);
+            notificationService.saveNotification(noti);
+        }
 
+        bookingService.save(b);
+        tourService.saveTour(t);
         ra.addFlashAttribute("message", "Cập nhật thành công");
         return String.format("redirect:/admin/booking/edit/%d", id);
     }

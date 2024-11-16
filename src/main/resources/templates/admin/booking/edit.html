@@ -101,27 +101,27 @@ h2 {
           <input type="hidden" class="form-control" id="bookingId" name="bookingId" required th:value="${booking[0][0]}" >
           <div  class="row">
             <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-              <label for="tourId" class="form-label">Tour ID - Name</label>
+              <label for="tourId" class="form-label">ID tour - Tên</label>
               <input type="hidden" class="form-control" id="tourId" name="tourId" required th:value="${booking[0][1]}">
               <input type="text" class="form-control"  th:value="${booking[0][1]} + ' - ' + ${booking[0][14]}" readonly>
             </div>
 
             <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-              <label for="tourDescription" class="form-label">Tour Description</label>
+              <label for="tourDescription" class="form-label">Mô tả tour</label>
               <input type="textarea" class="form-control" id="tourDescription" name="tourDescription"  th:value="${booking[0][15]}" readonly>
             </div>
           </div>
 
         <div  class="row">
         <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-          <label for="customerId" class="form-label">Customer ID - Name</label>
+          <label for="customerId" class="form-label">ID khách hàng - Tên</label>
           <input type="hidden" class="form-control" id="customerId" name="customerId" required th:value="${booking[0][12]}" >
 
           <input type="text" class="form-control"  th:value="${booking[0][12]} + ' - ' + ${booking[0][11]}" readonly>
         </div>
 
         <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-          <label for="phoneNumber" class="form-label">Phone Number</label>
+          <label for="phoneNumber" class="form-label">Số điện thoại</label>
           <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required th:value="${booking[0][13]}" readonly>
         </div>
     </div>
@@ -129,24 +129,24 @@ h2 {
 
         <div  class="row">
           <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-            <label for="numGuests" class="form-label">Guest</label>
+            <label for="numGuests" class="form-label">Số khách</label>
             <input type="number" class="form-control" id="numGuests" name="numGuests" required th:value="${booking[0][4]}" readonly>
           </div>
 
           <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-            <label for="totalPrice" class="form-label">Total Price</label>
+            <label for="totalPrice" class="form-label">Tổng tiền</label>
             <input type="number" class="form-control" id="totalPrice" name="totalPrice" required th:value="${booking[0][5]}" readonly>
           </div>
         </div>
 
         <div  class="row">
           <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-            <label for="bookingDate" class="form-label">Booking Date</label>
+            <label for="bookingDate" class="form-label"> Ngày đặt</label>
             <input type="date" class="form-control" id="bookingDate" name="bookingDate" required th:value="${booking[0][3]}" readonly>
           </div>
 
           <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-            <label for="specialRequests" class="form-label">Special Requests</label>
+            <label for="specialRequests" class="form-label">Yêu cầu khác</label>
             <input type="textarea" class="form-control" id="specialRequests" name="specialRequests" th:value="${booking[0][7]}" readonly>
           </div>
         </div>
@@ -172,10 +172,8 @@ h2 {
 
         <div class="row">
           <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
-          <label for="bookingStatus" class="form-label">Loại phương tiện</label>
-          <select class="form-select" id="bookingStatus" name="bookingStatus" >
-<!--            <option value="0"  th:selected="${booking[0][8] == 0}"-->
-<!--            >Đã hủy</option>-->
+          <label for="bookingStatus" class="form-label">Trạng thái</label>
+          <select class="form-select" id="bookingStatus" name="bookingStatus"  th:readonly="${booking[0][8] == 2}"  >
             <option value="1"   th:selected="${booking[0][8] == 1}"
             >Đang chờ</option>
             <option value="2"   th:selected="${booking[0][8] == 2}"
