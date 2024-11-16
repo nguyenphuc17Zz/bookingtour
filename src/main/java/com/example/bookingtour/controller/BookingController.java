@@ -129,7 +129,7 @@ public class BookingController {
     public String showPageEditTransport(@PathVariable("id") int id,Model model){
         List<Object[]> booking = bookingService.findEditById(id);
         model.addAttribute("booking",booking);
-        List<Transport> transports = transportService.getAllTransports();
+        List<Transport> transports = transportService.getAllTransportsActive();
         model.addAttribute("transports", transports);
 
         return "admin/booking/edit";

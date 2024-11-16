@@ -18,6 +18,11 @@ public class TransportService {
     public List<Transport> getAllTransports(){
         return this.transportRepository.findAll();
     }
+
+    public List<Transport> getAllTransportsActive(){
+        return this.transportRepository.getAllTransportsActive();
+    }
+
     public List<Transport> searchTransports(String searchTerm){
         return this.transportRepository.searchTransports(searchTerm);
     }

@@ -26,7 +26,7 @@ public interface BookingRepository  extends JpaRepository<Booking,Integer> {
             "FROM bookings b " +
             "LEFT JOIN transportation t ON b.transportation_id = t.transportation_id " +
             "LEFT JOIN customers c ON b.customer_id = c.customer_id " +
-            "LEFT JOIN tours tour ON b.tour_id = tour.tour_id " +
+            "LEFT JOIN tour tour ON b.tour_id = tour.tour_id " +
             "WHERE b.booking_id = :id", nativeQuery = true)
     List<Object[]> findEditBookingById(@Param("id") int id);
 
