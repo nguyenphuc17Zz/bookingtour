@@ -47,6 +47,9 @@ public class ReviewService {
     public void save(Review r){
         reviewRepository.save(r);
     }
+    public List<Object[]> getAllReviewsByTourId(int id){
+        return  reviewRepository.getAllReviewsByTourId(id);
+    }
 }
 
 

@@ -50,6 +50,13 @@ public interface ReviewRepository  extends JpaRepository<Review,Integer> {
 
     )
     List<Object[]> searchReviews(@Param("searchTerm") String searchTerm);
+    @Query("SELECT r.review_id, r.tour_id, r.customer_id, r.rating, r.review_comment, r.review_date, r.status, " +
+            "t.tour_name, t.tour_type, t.tour_id, " +
+            "c.name, c.email, c.phone_number, c.customer_id " +
+            "FROM Review r " +
+            "LEFT JOIN Tour t ON r.tour_id = t.tour_id " +
+            "LEFT JOIN Customer c ON r.customer_id = c.customer_id WHERE t.tour_id = :id AND r.status=1")
+    List<Object[]> getAllReviewsByTourId(@Param("id") int id);
 }
 
 

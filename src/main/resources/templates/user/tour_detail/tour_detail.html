@@ -51,7 +51,7 @@
                 <div class="rating">
                     <small th:if="${tour.tourRating > 0}" class="fa fa-star text-primary" th:each="i : ${#numbers.sequence(1, tour.tourRating)}"></small>
                     <small th:if="${tour.tourRating != 5}" class="fa fa-star text-muted" th:each="i : ${#numbers.sequence(1, 5 - tour.tourRating)}"></small>
-                    <p>X đánh giá</p>
+                    <p th:text="${length+' Đánh giá'}"></p>
                 </div>
             </div>
 
@@ -77,7 +77,9 @@
                     <span class="info-label">👥 Chỗ còn nhận:</span>
                     <span class="info-value" th:text="${tour.available_seats}"></span>
                 </div>
-                <button class="btn-book-now">Đặt ngay</button>
+                <a th:href="@{/booking/{id}(id=${tour.tour_id})}">
+                    <button class="btn-book-now" >Đặt ngay</button>
+                </a>
             </div>
 
         </div>
@@ -92,23 +94,24 @@
         <!-- Phần Review -->
         <div class="reviews">
             <h2>Đánh giá từ khách hàng</h2>
-            <div class="review">
-                <img src="https://via.placeholder.com/50" alt="User Avatar" class="user-avatar">
-                <div class="review-content">
-                    <div class="review-header">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
+            <div th:if="${length>0}">
+                <div class="review" th:each="review: ${reviews}">
+                    <img th:src="@{/images/user.webp}" alt="User Avatar" class="user-avatar">
+                    <div class="review-content">
+                        <div class="review-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong class="user-name text-primary" th:text="${review[10]}"></strong> <!-- Thêm tên người dùng -->
+                                <div class="rating d-inline">
+                                    <i class="fa fa-star text-primary" th:each="i : ${#numbers.sequence(1, review[3])}"></i>
+                                    <i th:if="${review[3] != 5}" class="fa fa-star text-muted" th:each="i : ${#numbers.sequence(1, 5-review[3])}"></i>
+                                </div>
+                            </div>
+                            <span class="review-date text-muted" th:text="${review[5]}"></span>
                         </div>
-                        <span class="review-date">2024-11-10</span>
+                        <p class="review-comment mt-2" th:text="${review[4]}"></p>
                     </div>
-                    <p class="review-comment">Chuyến đi thật tuyệt vời, mọi thứ đều rất chu đáo và đầy thú vị!</p>
                 </div>
             </div>
-
             <!-- Thêm phần nhập bình luận -->
             <div class="add-comment" id="add-comment-section">
                 <h3>Thêm đánh giá của bạn</h3>
