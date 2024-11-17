@@ -62,5 +62,9 @@ public class BookingService {
     public void save(Booking booking) {
         bookingRepository.save(booking);
     }
+    public List<Object[]>getAllBookingsByUserId(int id){
+        return  bookingRepository.getAllBookingsByUserId(id);
+    }
+
 
 }

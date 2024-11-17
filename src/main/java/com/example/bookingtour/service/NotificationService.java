@@ -36,4 +36,7 @@ public class NotificationService {
     public void saveNotification(Notification n){
         notificationRepository.save(n);
     }
+   public List<Notification> getAlls(){
+        return  notificationRepository.findAll();
+   }
 }

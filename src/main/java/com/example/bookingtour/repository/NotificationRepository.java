@@ -2,6 +2,7 @@ package com.example.bookingtour.repository;
 
 import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.entity.Notification;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,5 +22,8 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
             "WHERE LOWER(n.message) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
             "OR LOWER(c.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     List<Object[]> searchNotifications(@Param("searchTerm") String searchTerm);
+
+
+
 
 }

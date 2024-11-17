@@ -17,7 +17,7 @@ public interface TourRepository extends JpaRepository<Tour, Integer> {
             "OR LOWER(t.destination) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     public List<Tour> searchTours(@Param("searchTerm") String searchTerm);
     @Transactional
-    @Query("SELECT t FROM Tour t WHERE t.status = true ORDER BY t.tour_id DESC")
+    @Query("SELECT t FROM Tour t WHERE t.status = true and t.available_seats > 0 ORDER BY t.tour_id DESC")
     public List<Tour> getAllToursActive();
 
 
