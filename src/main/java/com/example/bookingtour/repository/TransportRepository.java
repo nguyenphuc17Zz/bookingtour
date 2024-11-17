@@ -2,6 +2,7 @@ package com.example.bookingtour.repository;
 
 
 import com.example.bookingtour.entity.Admin;
+import com.example.bookingtour.entity.Tour;
 import com.example.bookingtour.entity.Transport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,4 +23,8 @@ public interface TransportRepository extends JpaRepository<Transport,Integer> {
 
     @Query(value = "SELECT * FROM transportation WHERE transportation_id = :id", nativeQuery = true)
     Transport findTransportById(@Param("id") int id);
+
+    @Transactional
+    @Query("SELECT t FROM Transport t WHERE t.status = 1")
+    List<Transport> getAllTransportsActive();
 }
