@@ -55,4 +55,15 @@ public interface BookingRepository  extends JpaRepository<Booking,Integer> {
             "OR LOWER(tour.tour_name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
     )
     List<Object[]> searchBookings(@Param("searchTerm") String searchTerm);
+
+
+    @Query("SELECT b.booking_id, b.tour_id, b.transportation_id, b.booking_date, b.num_guests, b.total_price, b.payment_status, b.special_requests, b.booking_status, " +
+            "t.transportation_type, t.transportation_id, " +
+            "c.name, c.customer_id, c.phone_number, " +
+            "tour.tour_name, tour.tour_description " +
+            "FROM Booking b " +
+            "LEFT JOIN Transport t ON b.transportation_id = t.transportation_id " +
+            "INNER JOIN Customer c ON b.customer_id = c.customer_id " +
+            "INNER JOIN Tour tour ON b.tour_id = tour.tour_id WHERE c.customer_id=:id ORDER BY b.booking_id DESC")
+    List<Object[]> getAllBookingsByUserId(@Param("id") int id);
 }

@@ -36,3 +36,28 @@ document.getElementById('userProfile')?.addEventListener('click', function (even
     console.log(customerId);
     window.location.href = `/user-profile?id=${customerId}`;
 });
+document.getElementById('notification')?.addEventListener('click', function (event) {
+    let token = localStorage.getItem("jwtToken");
+    if (!token) {
+        window.location.href = "/home";  // Nếu không có token, chuyển về trang home
+        return;
+    }
+
+    // Lấy thông tin người dùng từ token
+    let payload = decodeJwtPayload(token);
+    let customerId = payload.id;  // Lấy customerId từ token
+    console.log(customerId);
+    window.location.href = `/notification?id=${customerId}`;
+});
+document.getElementById('history')?.addEventListener('click', function (event) {
+    let token = localStorage.getItem("jwtToken");
+    if (!token) {
+        window.location.href = "/home";  // Nếu không có token, chuyển về trang home
+        return;
+    }
+    // Lấy thông tin người dùng từ token
+    let payload = decodeJwtPayload(token);
+    let customerId = payload.id;  // Lấy customerId từ token
+    console.log(customerId);
+    window.location.href = `/history?id=${customerId}`;
+});

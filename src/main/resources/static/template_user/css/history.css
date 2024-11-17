@@ -1,0 +1,70 @@
+.history-container {
+    max-width: 1200px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.history-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    text-align: left;
+}
+
+.history-table thead th {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.history-table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.history-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Status colors */
+.status-cancel {
+    color: #d9534f; /* Red */
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #f0ad4e; /* Orange */
+    font-weight: bold;
+}
+
+.status-approved {
+    color: #5cb85c; /* Green */
+    font-weight: bold;
+}
+
+/* Cancel button */
+.btn-cancel {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-cancel:hover {
+    background-color: #c9302c;
+}

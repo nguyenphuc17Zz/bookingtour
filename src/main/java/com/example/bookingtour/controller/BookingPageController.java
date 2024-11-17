@@ -49,7 +49,7 @@ public class BookingPageController {
         booking.setBookingStatus(b.getBooking_status());
         Notification noti = new Notification();
         noti.setCustomer_id(b.getCustomer_id());
-        noti.setMessage("Đặt tour " + tour.getTour_name() +"thành công");
+        noti.setMessage("Đặt tour " + tour.getTour_name() +" thành công");
         noti.setStatus("unread");
         noti.setSend_date(b.getBooking_date());
         bookingService.save(booking);
