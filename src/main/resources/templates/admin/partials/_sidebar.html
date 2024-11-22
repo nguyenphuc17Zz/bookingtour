@@ -1,50 +1,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <nav class="sidebar sidebar-offcanvas" id="sidebar" th:fragment="sidebar">
   <ul class="nav">
-    <li class="nav-item">
+    <li class="nav-item sidebar-dashboard">
       <a class="nav-link" th:href="@{/admin/index}" >
         <i class="ti-shield menu-icon"></i>
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item sidebar-customer">
       <a class="nav-link" th:href="@{/admin/customer}">
         <i class="fas fa-users menu-icon"></i> <!-- Icon cho khách hàng -->
         <span class="menu-title">Customer</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item sidebar-admin">
       <a class="nav-link" th:href="@{/admin/qtv}">
         <i class="fas fa-user-shield menu-icon"></i> <!-- Icon cho admin -->
         <span class="menu-title">Admin</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item sidebar-tour">
       <a class="nav-link" th:href="@{/admin/tour}">
         <i class="fas fa-map-marker-alt menu-icon"></i> <!-- Icon cho tour -->
         <span class="menu-title">Tour</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item sidebar-notification">
       <a class="nav-link" th:href="@{/admin/notification}">
         <i class="fas fa-bell menu-icon"></i> <!-- Icon cho thông báo -->
         <span class="menu-title">Notification</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item sidebar-transportation">
       <a class="nav-link" th:href="@{/admin/transportation}">
         <i class="fas fa-car menu-icon"></i> <!-- Icon cho thông báo -->
         <span class="menu-title">Transportation</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item sidebar-booking">
       <a class="nav-link" th:href="@{/admin/booking}">
         <i class="fas fa-book menu-icon"></i> <!-- Icon cho thông báo -->
         <span class="menu-title">Booking</span>
       </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item sidebar-review">
       <a class="nav-link" th:href="@{/admin/review}">
         <i class="fas fa-commenting menu-icon"></i> <!-- Icon cho thông báo -->
         <span class="menu-title">Review</span>
