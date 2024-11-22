@@ -44,4 +44,7 @@ public class TourService {
     public List<Tour> getAllToursActive(){
         return tourRepository.getAllToursActive();
     }
+    public int countTour(){
+        return tourRepository.countTour();
+    }
 }

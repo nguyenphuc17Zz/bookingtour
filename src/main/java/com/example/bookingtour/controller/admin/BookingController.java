@@ -1,11 +1,9 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.admin;
 
 import com.example.bookingtour.entity.Booking;
 import com.example.bookingtour.entity.Notification;
 import com.example.bookingtour.entity.Tour;
 import com.example.bookingtour.entity.Transport;
-import com.example.bookingtour.repository.BookingRepository;
-import com.example.bookingtour.repository.TransportRepository;
 import com.example.bookingtour.service.BookingService;
 import com.example.bookingtour.service.NotificationService;
 import com.example.bookingtour.service.TourService;
@@ -16,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import java.util.List;
 

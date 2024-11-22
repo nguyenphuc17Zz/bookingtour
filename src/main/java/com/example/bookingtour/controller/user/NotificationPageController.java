@@ -1,4 +1,4 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.user;
 
 import com.example.bookingtour.entity.Notification;
 import com.example.bookingtour.service.NotificationService;

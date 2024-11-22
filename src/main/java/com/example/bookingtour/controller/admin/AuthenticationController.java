@@ -1,4 +1,4 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.admin;
 
 import com.example.bookingtour.dto.CustomerRegisterDto;
 import com.example.bookingtour.dto.ForgotPassDto;
@@ -95,17 +95,7 @@ public class AuthenticationController {
         return null;
     }
 
-    // DI CHUYEN DEN TRANG INDEX
-    @GetMapping("/admin/index")
-    public String showIndexPage(Model model, HttpServletRequest request) {
-        Cookie cookie = getCookie(request, "adminId");
-        if (cookie != null) {
-            // model.addAttribute("message", "Cookie exists: " + cookie.getValue());
-            return "admin/index";
-        } else {
-            return "redirect:/admin/login";
-        }
-    }
+
 
     @GetMapping("/admin")
     public String goToIndex() {

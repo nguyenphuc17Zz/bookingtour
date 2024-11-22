@@ -19,6 +19,7 @@ public interface TourRepository extends JpaRepository<Tour, Integer> {
     @Transactional
     @Query("SELECT t FROM Tour t WHERE t.status = true and t.available_seats > 0 ORDER BY t.tour_id DESC")
     public List<Tour> getAllToursActive();
-
+    @Query(value = "SELECT COUNT(*) FROM tour", nativeQuery = true)
+    public int countTour();
 
 }

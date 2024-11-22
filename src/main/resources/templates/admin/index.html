@@ -6,22 +6,190 @@
     <title>Admin Bookingtour</title>
     <!-- plugins:css -->
     <link rel="stylesheet" th:href="@{/template_admin/template/vendors/ti-icons/css/themify-icons.css}">
-    <link rel="stylesheet" th:href="@{/template_admin/template/vendors/base/vendor.bundle.base.css}" >
+    <link rel="stylesheet" th:href="@{/template_admin/template/vendors/base/vendor.bundle.base.css}">
     <!-- endinject -->
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet"  th:href="@{/template_admin/template/css/style.css}" >
+    <link rel="stylesheet" th:href="@{/template_admin/template/css/style.css}">
     <!-- endinject -->
-    <link rel="shortcut icon" th:href="@{/template_admin/template/images/favicon.png}" >
+    <link rel="shortcut icon" th:href="@{/template_admin/template/images/favicon.png}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <link rel="stylesheet" th:href="@{/template_admin/template/css/dashboard.css}">
 </head>
 
 
+<body>
+
+<div class="container-scroller" th:fragment="layout(content)">
 
 
-<div th:replace="admin/layout/layout :: layout(content=~{admin/fragments/dashboard :: content})"></div>
+    <nav th:replace="admin/partials/_navbar :: navbar">
+
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+
+        <nav th:replace="admin/partials/_sidebar :: sidebar">
+
+        </nav>
+        <div>
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 grid-margin">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h4 class="font-weight-bold mb-0">Bookingtour Dashboard</h4>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-icon-text btn-rounded">
+                                        <i class="ti-clipboard btn-icon-prepend"></i>Report
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-title text-md-center text-xl-left">Booking</p>
+                                    <div class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
+                                        <h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0"
+                                            th:text="${bookings}"></h3>
+                                        <i class="ti-calendar icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
+                                    </div>
+                                    <p class="mb-0 mt-2 text-danger"><span
+                                            class="text-black ms-1"><small>(30 days)</small></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-title text-md-center text-xl-left">Customer</p>
+                                    <div class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
+                                        <h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0"
+                                            th:text="${customers}"></h3>
+                                        <i class="ti-user icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
+                                    </div>
+                                    <p class="mb-0 mt-2 text-danger"><span
+                                            class="text-black ms-1"><small></small></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-title text-md-center text-xl-left">Tour</p>
+                                    <div class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
+                                        <h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0" th:text="${tours}"></h3>
+                                        <i class="ti-agenda icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
+                                    </div>
+                                    <p class="mb-0 mt-2 text-success"><span
+                                            class="text-black ms-1"><small></small></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-title text-md-center text-xl-left">Returns</p>
+                                    <div class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
+                                        <h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0" th:text="${return}"></h3>
+                                        <i class="ti-layers-alt icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
+                                    </div>
+                                    <p class="mb-0 mt-2 text-success"><span
+                                            class="text-black ms-1"><small>(30 days)</small></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card position-relative">
+                                <div class="card-body">
+                                    <p class="card-title">Thống kê doanh thu</p>
+                                    <form id="revenueForm">
+                                        <div class="form-group">
+                                            <label for="fromDate">From:</label>
+                                            <input type="date" id="fromDate" name="fromDate" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="toDate">To:</label>
+                                            <input type="date" id="toDate" name="toDate" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tourType">Tour Type:</label>
+                                            <select id="tourType" name="tourType" required>
+                                                <option value="all" selected>Tất cả</option>
+                                                <option value="nghỉ dưỡng">Nghỉ dưỡng</option>
+                                                <option value="khám phá">Khám phá</option>
+                                                <option value="mạo hiểm">Mạo hiểm</option>
+                                                <option value="văn hóa">Văn hóa</option>
+
+                                            </select>
+                                        </div>
+                                        <button type="button" class="btn btn-primary " id="btn-doanhthu">Thống kê</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chartDoanhthu" style="height: 370px; width: 100%;"></div>
+                        </div>
+                    </div>
+<!--                                                        THONG KE TOUR -->
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card position-relative">
+                                <div class="card-body">
+                                    <p class="card-title">Thống kê Tour</p>
+                                    <form id="tourForm">
+                                        <div class="form-group">
+                                            <label for="fromDate">From:</label>
+                                            <input type="date" id="fromDateTour" name="fromDate" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="toDate">To:</label>
+                                            <input type="date" id="toDateTour" name="toDate" required>
+                                        </div>
+
+                                        <button type="button" class="btn btn-primary " id="btn-tour">Thống kê</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chartTour" style="height: 370px; width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+
+                <!-- partial -->
+            </div>
+        </div>
+
+
+        <!--         content-wrapper ends-->
+        <!--         partial:partials/_footer.html-->
+
+        <!--         partial-->
+    </div>
+
+</div>
+
+
+</body>
 
 
 <footer th:replace="admin/partials/_footer :: footer">
@@ -29,20 +197,172 @@
 </footer>
 
 
-
-
-<script  th:src="@{/template_admin/template/vendors/base/vendor.bundle.base.js}"></script>
+<script th:src="@{/template_admin/template/vendors/base/vendor.bundle.base.js}"></script>
 <!-- endinject -->
 <!-- Plugin js for this page-->
-<script  th:src="@{/template_admin/template/vendors/chart.js/Chart.min.js}"></script>
-<script  th:src="@{/template_admin/template/js/jquery.cookie.js}" type="text/javascript"></script>
+<script th:src="@{/template_admin/template/vendors/chart.js/Chart.min.js}"></script>
+<script th:src="@{/template_admin/template/js/jquery.cookie.js}" type="text/javascript"></script>
 <!-- End plugin js for this page-->
 <!-- inject:js -->
-<script  th:src="@{/template_admin/template/js/off-canvas.js}"></script>
-<script  th:src="@{/template_admin/template/js/hoverable-collapse.js}"></script>
+<script th:src="@{/template_admin/template/js/off-canvas.js}"></script>
+<script th:src="@{/template_admin/template/js/hoverable-collapse.js}"></script>
 <script th:src="@{/template_admin/template/js/template.js}"></script>
 <script th:src="@{/template_admin/template/js/todolist.js}"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script th:src="@{/template_admin/template/js/dashboard.js}"></script>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date().toISOString().split("T")[0];
+
+        document.getElementById("fromDate").setAttribute("max", today);
+        document.getElementById("toDate").setAttribute("max", today);
+
+        document.getElementById("fromDateTour").setAttribute("max", today);
+        document.getElementById("toDateTour").setAttribute("max", today);
+    });
+    document.getElementById('btn-doanhthu').addEventListener('click', function () {
+    const tourType = document.getElementById('tourType').value;
+    const fromDate = document.getElementById('fromDate').value;
+    const toDate = document.getElementById('toDate').value;
+
+    if (!fromDate || !toDate) {
+        alert('Chưa chọn đủ ngày.');
+        return;
+    }
+
+    if (new Date(fromDate) > new Date(toDate)) {
+        alert('Từ ngày phải trước Đến ngày.');
+        return;
+    }
+
+    const requestData = {
+        tourType: tourType || "all",
+        fromDate: fromDate,
+        toDate: toDate,
+    };
+
+    fetch('/admin/thongkedoanhthu', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            const intervals = data.intervals.map((date) => new Date(date).toLocaleDateString());
+            const revenues = data.revenues;
+
+            displayChart(intervals, revenues);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi gọi API.');
+        });
+});
+function displayChart(intervals, revenues) {
+    const dataPoints = [{ label: intervals[0], y: 0 }];
+
+    for (let i = 0; i < revenues.length; i++) {
+        dataPoints.push({
+            label: intervals[i + 1],
+            y: revenues[i]
+        });
+    }
+
+    const chart = new CanvasJS.Chart("chartDoanhthu", {
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+            text: "Doanh thu theo khoảng thời gian"
+        },
+        axisX: {
+            title: "Khoảng thời gian"
+        },
+        axisY: {
+            title: "Doanh thu (VNĐ)"
+        },
+        data: [{
+            type: "line",
+            dataPoints: dataPoints
+        }]
+    });
+
+    chart.render();
+}
+document.getElementById('btn-tour').addEventListener('click', function () {
+    const tourType = "abc";
+    const fromDate = document.getElementById('fromDateTour').value;
+    const toDate = document.getElementById('toDateTour').value;
+
+    if (!fromDate || !toDate) {
+        alert('Chưa chọn đủ ngày.');
+        return;
+    }
+
+    if (new Date(fromDate) > new Date(toDate)) {
+        alert('Từ ngày phải trước Đến ngày.');
+        return;
+    }
+
+    const requestData = {
+        tourType: tourType || "all",
+        fromDate: fromDate,
+        toDate: toDate,
+    };
+
+    fetch('/admin/thongketour', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            let data1 = data.data;
+            displayChartTour(data1);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi gọi API.');
+        });
+});
+
+function displayChartTour(data) {
+    const dataPoints = [];
+
+    for (let i = 0; i < data.length; i++) {
+        dataPoints.push({
+            label: data[i][0],
+            y: data[i][2]
+        });
+    }
+
+    const chart = new CanvasJS.Chart("chartTour", {
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+            text: "Top 5 tour"
+        },
+        axisX: {
+            title: "Tên tour"
+        },
+        axisY: {
+            title: "Số lượng booking"
+        },
+        data: [{
+            type: "column",
+            dataPoints: dataPoints
+        }]
+    });
+
+    chart.render();
+}
+
+
+</script>
+
 </html>

@@ -1,10 +1,8 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.user;
 
-import com.example.bookingtour.dto.AddReviewTourDetail;
 import com.example.bookingtour.dto.BookingPageDto;
 import com.example.bookingtour.entity.Booking;
 import com.example.bookingtour.entity.Notification;
-import com.example.bookingtour.entity.Review;
 import com.example.bookingtour.entity.Tour;
 import com.example.bookingtour.service.BookingService;
 import com.example.bookingtour.service.NotificationService;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Book;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -7,6 +7,8 @@ import com.example.bookingtour.repository.BookingRepository;
 import com.example.bookingtour.repository.TransportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +17,9 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-//    public List<Booking> getAllBookings(){
-//        return this.bookingRepository.findAll();
-//    }
+    public List<Booking> getAllBooking(){
+        return this.bookingRepository.findAll();
+    }
 //
 //    public List<Booking> searchBookings(String searchTerm){
 //        return this.bookingRepository.searchBookings(searchTerm);
@@ -65,6 +67,14 @@ public class BookingService {
     public List<Object[]>getAllBookingsByUserId(int id){
         return  bookingRepository.getAllBookingsByUserId(id);
     }
-
-
+    public int BookingMotThang(){
+        return  bookingRepository.BookingMotThang();
+    }
+    // THONG KE
+    public List<Object[]> getAllBookingsWithTourType(){
+        return bookingRepository.getAllBookingsWithTourType();
+    }
+    public List<Object[]> getTop5Tour(){
+        return bookingRepository.getTop5Tour();
+    }
 }
