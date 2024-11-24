@@ -6,6 +6,8 @@ import com.example.bookingtour.entity.Transport;
 import com.example.bookingtour.repository.BookingRepository;
 import com.example.bookingtour.repository.TransportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -60,6 +62,18 @@ public class BookingService {
     public void editBooking(int bookingId) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Transport not found"));
     }
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    public void sendEmail(String to, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+        mailSender.send(message);
+    }
+
 
     public void save(Booking booking) {
         bookingRepository.save(booking);

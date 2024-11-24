@@ -23,7 +23,8 @@ public interface BookingRepository  extends JpaRepository<Booking,Integer> {
     @Query(value = "SELECT b.booking_id, b.tour_id, b.transportation_id, b.booking_date, b.num_guests, b.total_price, b.payment_status, b.special_requests, b.booking_status, " +
             "t.transportation_type, t.transportation_id, " +
             "c.name, c.customer_id, c.phone_number, " +
-            "tour.tour_name, tour.tour_description " +
+            "tour.tour_name, tour.tour_description, " +
+            "c.email " +
             "FROM bookings b " +
             "LEFT JOIN transportation t ON b.transportation_id = t.transportation_id " +
             "LEFT JOIN customers c ON b.customer_id = c.customer_id " +

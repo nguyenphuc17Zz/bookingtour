@@ -104,6 +104,7 @@ h2 {
             <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
               <label for="tourId" class="form-label">ID tour - Tên</label>
               <input type="hidden" class="form-control" id="tourId" name="tourId" required th:value="${booking[0][1]}">
+              <input type="hidden" class="form-control" id="tourName" name="tourName" required th:value="${booking[0][14]}">
               <input type="text" class="form-control"  th:value="${booking[0][1]} + ' - ' + ${booking[0][14]}" readonly>
             </div>
 
@@ -126,6 +127,13 @@ h2 {
           <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required th:value="${booking[0][13]}" readonly>
         </div>
     </div>
+
+        <div  class="row">
+        <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" class="form-control" id="email" name="email" th:value="${booking[0][16]}" readonly>
+        </div>
+        </div>
 
 
         <div  class="row">
