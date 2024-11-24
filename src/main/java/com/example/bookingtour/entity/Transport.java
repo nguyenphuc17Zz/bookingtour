@@ -41,7 +41,13 @@ public class Transport {
     }
 
     public void setTag(String tag) {
-        this.tag = tag;
+
+
+
+        this.tag = tag.toUpperCase();
+
+
+
     }
     public String getTag() {
         return tag;

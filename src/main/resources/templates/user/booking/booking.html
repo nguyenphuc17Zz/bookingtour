@@ -145,8 +145,19 @@
 <!-- Booking Start -->
 
 
+<script>
+    document.getElementById('num_guests').addEventListener('input', function() {
+        const maxValue = parseInt(this.max);
+        const minValue = parseInt(this.min);
+        const value = parseInt(this.value);
 
-
+        if (value < minValue) {
+            this.value = minValue; // Set to min value if less than min
+        } else if (value > maxValue) {
+            this.value = maxValue; // Set to max value if greater than max
+        }
+    });
+</script>
 
 
 <div th:replace="user/footer :: footer"></div>

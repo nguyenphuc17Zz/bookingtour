@@ -127,6 +127,19 @@ public class TransportController {
     @PostMapping("admin/transportation/update/{id}/send")
     public String executeEditTransport(@PathVariable("id") int id , @ModelAttribute Transport transport, RedirectAttributes ra){
         Transport t = this.transportService.findById(id);
+
+        if(transport.getTag().length() < 3 || transport.getTag().length() > 10){
+            ra.addFlashAttribute("message","Biển số từ 3 đến 10 kí tự");
+            return String.format("redirect:/admin/transportation/edit/%d", id);
+        }
+
+        if(transport.getSeat() <= 0 || transport.getSeat() > 2000){
+            ra.addFlashAttribute("message","Số ghế phải lớn hơn 0 và nhỏ hơn 2000");
+            return String.format("redirect:/admin/transportation/edit/%d", id);
+        }
+
+
+
         t.setTransportationType(transport.getTransportationType());
         t.setTag(transport.getTag());
         t.setSeat(transport.getSeat());
@@ -137,14 +150,29 @@ public class TransportController {
     }
 
 
+
+
+
     @GetMapping("admin/transportation/add")
     public String showPageAddAdmin(Model model){
         model.addAttribute("transport",new Transport());
         return "admin/transportation/add";
     }
 
+
+
+
+
     @PostMapping("admin/transportation/add/send")
     public String executeAddAdmin(@ModelAttribute Transport transport, RedirectAttributes ra) {
+        if(transport.getTag().length() < 3 || transport.getTag().length() > 10){
+            ra.addFlashAttribute("message","Biển số từ 3 đến 10 kí tự");
+            return "redirect:/admin/transportation/add";
+        }
+        if(transport.getSeat() <= 0 || transport.getSeat() > 2000){
+            ra.addFlashAttribute("message","Số ghế phải lớn hơn 0 và nhỏ hơn 2000");
+            return "redirect:/admin/transportation/add";
+        }
         transportService.save(transport);
         ra.addFlashAttribute("message", "Thêm mới phương tiện thành công");
         return "redirect:/admin/transportation/add";
