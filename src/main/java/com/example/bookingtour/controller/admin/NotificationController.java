@@ -1,6 +1,5 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.admin;
 
-import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.entity.Notification;
 import com.example.bookingtour.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 public class NotificationController {

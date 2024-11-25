@@ -52,4 +52,7 @@ public class CustomerService {
     public void save(Customer customer) {
         customerRepository.save(customer);
     }
+    public int countCustomer(){
+        return customerRepository.countCustomer();
+    }
 }

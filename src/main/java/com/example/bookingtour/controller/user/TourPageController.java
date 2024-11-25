@@ -1,7 +1,6 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.user;
 
 import com.example.bookingtour.dto.TourFilters;
-import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.entity.Tour;
 import com.example.bookingtour.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;

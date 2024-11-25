@@ -22,4 +22,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
             "OR LOWER(c.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
             "OR LOWER(c.phone_number) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     public List<Customer> searchCustomers(@Param("searchTerm") String searchTerm);
+    @Query(value = "SELECT COUNT(*) FROM customers", nativeQuery = true)
+    public int countCustomer();
+
 }

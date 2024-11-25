@@ -1,8 +1,6 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.user;
 
 import com.example.bookingtour.entity.Booking;
-import com.example.bookingtour.entity.Notification;
-import com.example.bookingtour.repository.BookingRepository;
 import com.example.bookingtour.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

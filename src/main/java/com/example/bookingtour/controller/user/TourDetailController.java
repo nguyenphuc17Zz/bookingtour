@@ -1,8 +1,6 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.user;
 
 import com.example.bookingtour.dto.AddReviewTourDetail;
-import com.example.bookingtour.dto.UserProfileDto;
-import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.entity.Review;
 import com.example.bookingtour.entity.Tour;
 import com.example.bookingtour.service.ReviewService;
@@ -18,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class TourDetailController {

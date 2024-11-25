@@ -1,11 +1,9 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.admin;
 
 import com.example.bookingtour.entity.Booking;
 import com.example.bookingtour.entity.Notification;
 import com.example.bookingtour.entity.Tour;
 import com.example.bookingtour.entity.Transport;
-import com.example.bookingtour.repository.BookingRepository;
-import com.example.bookingtour.repository.TransportRepository;
 import com.example.bookingtour.service.BookingService;
 import com.example.bookingtour.service.NotificationService;
 import com.example.bookingtour.service.TourService;
@@ -16,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import java.util.List;
 
@@ -165,7 +162,9 @@ public class BookingController {
             @RequestParam("bookingStatus") int bookingStatus,
             @RequestParam("numGuests") int numGuests,
             @RequestParam("tourId") int tourId,
-            @RequestParam("customerId") int customerId
+            @RequestParam("customerId") int customerId,
+            @RequestParam("email") String email,
+            @RequestParam("tourName") String tourName
     )
     {
         Booking b = this.bookingService.findById(id);
@@ -191,6 +190,8 @@ public class BookingController {
             noti.setMessage("Tour đã được duyệt thành công");
             noti.setStatus("unread");
             noti.setSend_date(now);
+
+            bookingService.sendEmail(email, "Booking Tour", "Tour "+ tourName + ", với số người là: " + numGuests +  " đã được duyệt thành công \n Xem chi tiết tại web chúng tôi!");
             notificationService.saveNotification(noti);
         }
 
@@ -199,5 +200,4 @@ public class BookingController {
         ra.addFlashAttribute("message", "Cập nhật thành công");
         return String.format("redirect:/admin/booking/edit/%d", id);
     }
-
 }

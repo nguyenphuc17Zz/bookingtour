@@ -1,10 +1,5 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.admin;
 
-import com.example.bookingtour.dto.ForgotPassDto;
-import com.example.bookingtour.entity.Customer;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;

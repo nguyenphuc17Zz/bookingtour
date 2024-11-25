@@ -16,6 +16,7 @@
   <link rel="shortcut icon" th:href="@{/template_admin/template/images/favicon.png}" >
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 
   <style>
@@ -103,6 +104,7 @@ h2 {
             <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
               <label for="tourId" class="form-label">ID tour - Tên</label>
               <input type="hidden" class="form-control" id="tourId" name="tourId" required th:value="${booking[0][1]}">
+              <input type="hidden" class="form-control" id="tourName" name="tourName" required th:value="${booking[0][14]}">
               <input type="text" class="form-control"  th:value="${booking[0][1]} + ' - ' + ${booking[0][14]}" readonly>
             </div>
 
@@ -125,6 +127,13 @@ h2 {
           <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required th:value="${booking[0][13]}" readonly>
         </div>
     </div>
+
+        <div  class="row">
+        <div class="col-xl-6 col-l-6 col-mb-6 col-sm-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" class="form-control" id="email" name="email" th:value="${booking[0][16]}" readonly>
+        </div>
+        </div>
 
 
         <div  class="row">
@@ -245,5 +254,6 @@ h2 {
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script th:src="@{/template_admin/template/js/dashboard.js}"></script>
+<script th:src="@{/template_admin/template/js/security.js}"></script>
 
 </html>

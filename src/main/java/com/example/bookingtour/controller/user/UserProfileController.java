@@ -1,18 +1,12 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.user;
 
-import com.example.bookingtour.dto.LoginCustomerDto;
 import com.example.bookingtour.dto.UserProfileDto;
 import com.example.bookingtour.entity.Customer;
-import com.example.bookingtour.security.JWTUtil;
 import com.example.bookingtour.service.CustomerService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;

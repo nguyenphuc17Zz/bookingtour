@@ -1,30 +1,14 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.admin;
 
-import com.example.bookingtour.dto.CustomerRegisterDto;
-import com.example.bookingtour.dto.ForgotPassDto;
-import com.example.bookingtour.dto.TransportDto;
-import com.example.bookingtour.entity.Admin;
-import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.entity.Transport;
-import com.example.bookingtour.service.AdminService;
-import com.example.bookingtour.service.BookingService;
-import com.example.bookingtour.service.CustomerService;
 import com.example.bookingtour.service.TransportService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.Date;
+
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class TransportController {
@@ -143,6 +127,19 @@ public class TransportController {
     @PostMapping("admin/transportation/update/{id}/send")
     public String executeEditTransport(@PathVariable("id") int id , @ModelAttribute Transport transport, RedirectAttributes ra){
         Transport t = this.transportService.findById(id);
+
+        if(transport.getTag().length() < 3 || transport.getTag().length() > 10){
+            ra.addFlashAttribute("message","Biển số từ 3 đến 10 kí tự");
+            return String.format("redirect:/admin/transportation/edit/%d", id);
+        }
+
+        if(transport.getSeat() <= 0 || transport.getSeat() > 2000){
+            ra.addFlashAttribute("message","Số ghế phải lớn hơn 0 và nhỏ hơn 2000");
+            return String.format("redirect:/admin/transportation/edit/%d", id);
+        }
+
+
+
         t.setTransportationType(transport.getTransportationType());
         t.setTag(transport.getTag());
         t.setSeat(transport.getSeat());
@@ -153,14 +150,29 @@ public class TransportController {
     }
 
 
+
+
+
     @GetMapping("admin/transportation/add")
     public String showPageAddAdmin(Model model){
         model.addAttribute("transport",new Transport());
         return "admin/transportation/add";
     }
 
+
+
+
+
     @PostMapping("admin/transportation/add/send")
     public String executeAddAdmin(@ModelAttribute Transport transport, RedirectAttributes ra) {
+        if(transport.getTag().length() < 3 || transport.getTag().length() > 10){
+            ra.addFlashAttribute("message","Biển số từ 3 đến 10 kí tự");
+            return "redirect:/admin/transportation/add";
+        }
+        if(transport.getSeat() <= 0 || transport.getSeat() > 2000){
+            ra.addFlashAttribute("message","Số ghế phải lớn hơn 0 và nhỏ hơn 2000");
+            return "redirect:/admin/transportation/add";
+        }
         transportService.save(transport);
         ra.addFlashAttribute("message", "Thêm mới phương tiện thành công");
         return "redirect:/admin/transportation/add";

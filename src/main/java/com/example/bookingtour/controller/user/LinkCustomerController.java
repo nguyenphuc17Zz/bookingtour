@@ -1,10 +1,8 @@
-package com.example.bookingtour.controller;
+package com.example.bookingtour.controller.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import com.example.bookingtour.entity.Admin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class LinkCustomerController {
