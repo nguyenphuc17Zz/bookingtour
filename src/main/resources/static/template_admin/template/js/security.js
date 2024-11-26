@@ -1,7 +1,7 @@
 const sidebarItems = {
-    admin: [".sidebar-dashboard", ".sidebar-customer", ".sidebar-admin", ".sidebar-notification", ".sidebar-transportation", ".sidebar-review"],
-    tour_manager: [".sidebar-dashboard", ".sidebar-tour", ".sidebar-notification"],
-    booking_manager: [".sidebar-dashboard", ".sidebar-booking", ".sidebar-notification"]
+    admin: [".sidebar-dashboard", ".sidebar-customer", ".sidebar-admin", ".sidebar-notification", ".sidebar-review"],
+    tour_manager: [".sidebar-dashboard", ".sidebar-tour", ".sidebar-notification", ".sidebar-transportation",".sidebar-review"],
+    booking_manager: [".sidebar-dashboard", ".sidebar-booking", ".sidebar-notification", ".sidebar-transportation", ".sidebar-customer"]
 };
 function hideSideBar(){
     document.querySelectorAll('.nav-item').forEach(item => {
@@ -39,18 +39,26 @@ if (!getCookie("adminId")) {
     const accessUrls = {
         admin: [
             "http://localhost:8080/admin/customer",
-            "http://localhost:8080/admin/transportation",
             "http://localhost:8080/admin/review",
             "http://localhost:8080/admin/notification",
-            "http://localhost:8080/admin/index"
+            "http://localhost:8080/admin/index",
+            "http://localhost:8080/admin/qtv"
         ],
         tour_manager: [
             "http://localhost:8080/admin/tour",
-            "http://localhost:8080/admin/index"
+            "http://localhost:8080/admin/index",
+            "http://localhost:8080/admin/notification",
+            "http://localhost:8080/admin/transportation",
+            "http://localhost:8080/admin/review",
+
+
         ],
         booking_manager: [
             "http://localhost:8080/admin/booking",
-            "http://localhost:8080/admin/index"
+            "http://localhost:8080/admin/index",
+            "http://localhost:8080/admin/notification",
+            "http://localhost:8080/admin/transportation",
+            "http://localhost:8080/admin/customer",
         ]
     };
 
