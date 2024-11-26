@@ -106,6 +106,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chartDoanhthu" style="height: 370px; width: 100%;"></div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card position-relative">
@@ -138,12 +144,15 @@
                         </div>
                     </div>
 
+
+<!--                                                        THONG KE TOUR -->
+
+
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="chartDoanhthu" style="height: 370px; width: 100%;"></div>
+                            <div id="chartTour" style="height: 370px; width: 100%;"></div>
                         </div>
                     </div>
-<!--                                                        THONG KE TOUR -->
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card position-relative">
@@ -163,12 +172,6 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="chartTour" style="height: 370px; width: 100%;"></div>
                         </div>
                     </div>
                 </div>
@@ -216,154 +219,167 @@
 <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const today = new Date().toISOString().split("T")[0];
+       const today = new Date();
+       const oneMonthAgo = new Date(today);
+       oneMonthAgo.setMonth(today.getMonth() - 1);
 
-        document.getElementById("fromDate").setAttribute("max", today);
-        document.getElementById("toDate").setAttribute("max", today);
+       // Format dates to YYYY-MM-DD
+       const formatDate = (date) => {
+           return date.toISOString().split("T")[0];
+       };
 
-        document.getElementById("fromDateTour").setAttribute("max", today);
-        document.getElementById("toDateTour").setAttribute("max", today);
-    });
-    document.getElementById('btn-doanhthu').addEventListener('click', function () {
-    const tourType = document.getElementById('tourType').value;
-    const fromDate = document.getElementById('fromDate').value;
-    const toDate = document.getElementById('toDate').value;
+       // Set default values for date inputs
+       document.getElementById("fromDate").value = formatDate(oneMonthAgo);
+       document.getElementById("toDate").value = formatDate(today);
 
-    if (!fromDate || !toDate) {
-        alert('Chưa chọn đủ ngày.');
-        return;
-    }
+       document.getElementById("fromDateTour").value = formatDate(oneMonthAgo);
+       document.getElementById("toDateTour").value = formatDate(today);
 
-    if (new Date(fromDate) > new Date(toDate)) {
-        alert('Từ ngày phải trước Đến ngày.');
-        return;
-    }
+       // Set max attributes for date inputs
+       document.getElementById("fromDate").setAttribute("max", formatDate(today));
+       document.getElementById("toDate").setAttribute("max", formatDate(today));
+       document.getElementById("fromDateTour").setAttribute("max", formatDate(today));
+       document.getElementById("toDateTour").setAttribute("max", formatDate(today));
 
-    const requestData = {
-        tourType: tourType || "all",
-        fromDate: fromDate,
-        toDate: toDate,
-    };
+       // Fetch statistics on page load
+       fetchStatistics();
+       fetchTourStatistics();
+       // Event listener for the revenue button
+       document.getElementById('btn-doanhthu').addEventListener('click', function () {
+           fetchStatistics();
+       });
 
-    fetch('/admin/thongkedoanhthu', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            const intervals = data.intervals.map((date) => new Date(date).toLocaleDateString());
-            const revenues = data.revenues;
+       // Event listener for the tour button
+       document.getElementById('btn-tour').addEventListener('click', function () {
+           fetchTourStatistics();
+       });
 
-            displayChart(intervals, revenues);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Có lỗi xảy ra khi gọi API.');
-        });
-});
-function displayChart(intervals, revenues) {
-    const dataPoints = [{ label: intervals[0], y: 0 }];
+       function fetchStatistics() {
+           const tourType = document.getElementById('tourType').value;
+           const fromDate = document.getElementById('fromDate').value;
+           const toDate = document.getElementById('toDate').value;
 
-    for (let i = 0; i < revenues.length; i++) {
-        dataPoints.push({
-            label: intervals[i + 1],
-            y: revenues[i]
-        });
-    }
+           if (!fromDate || !toDate) {
+               alert('Chưa chọn đủ ngày.');
+               return;
+           }
+           if (new Date(fromDate) > new Date(toDate)) {
+               alert('Từ ngày phải trước Đến ngày.');
+               return;
+           }
 
-    const chart = new CanvasJS.Chart("chartDoanhthu", {
-        animationEnabled: true,
-        theme: "light2",
-        title: {
-            text: "Doanh thu theo khoảng thời gian"
-        },
-        axisX: {
-            title: "Khoảng thời gian"
-        },
-        axisY: {
-            title: "Doanh thu (VNĐ)"
-        },
-        data: [{
-            type: "line",
-            dataPoints: dataPoints
-        }]
-    });
+           const requestData = {
+               tourType: tourType || "all",
+               fromDate: fromDate,
+               toDate: toDate,
+           };
 
-    chart.render();
-}
-document.getElementById('btn-tour').addEventListener('click', function () {
-    const tourType = "abc";
-    const fromDate = document.getElementById('fromDateTour').value;
-    const toDate = document.getElementById('toDateTour').value;
+           fetch('/admin/thongkedoanhthu', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json',
+               },
+               body: JSON.stringify(requestData),
+           })
+           .then((response) => response.json())
+           .then((data) => {
+               const intervals = data.intervals.map((date) => new Date(date).toLocaleDateString());
+               const revenues = data.revenues;
+               displayChart(intervals, revenues);
+           })
+           .catch((error) => {
+               console.error('Error:', error);
+               alert('Có lỗi xảy ra khi gọi API.');
+           });
+       }
 
-    if (!fromDate || !toDate) {
-        alert('Chưa chọn đủ ngày.');
-        return;
-    }
+       function fetchTourStatistics() {
+           const fromDate = document.getElementById('fromDateTour').value;
+           const toDate = document.getElementById('toDateTour').value;
 
-    if (new Date(fromDate) > new Date(toDate)) {
-        alert('Từ ngày phải trước Đến ngày.');
-        return;
-    }
+           if (!fromDate || !toDate) {
+               alert('Chưa chọn đủ ngày.');
+               return;
+           }
+           if (new Date(fromDate) > new Date(toDate)) {
+               alert('Từ ngày phải trước Đến ngày.');
+               return;
+           }
 
-    const requestData = {
-        tourType: tourType || "all",
-        fromDate: fromDate,
-        toDate: toDate,
-    };
+           const requestData = {
+               tourType: "abc", // You can modify this as needed
+               fromDate: fromDate,
+               toDate: toDate,
+           };
 
-    fetch('/admin/thongketour', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            let data1 = data.data;
-            displayChartTour(data1);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Có lỗi xảy ra khi gọi API.');
-        });
-});
+           fetch('/admin/thongketour', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json',
+               },
+               body: JSON.stringify(requestData),
+           })
+           .then((response) => response.json())
+           .then((data) => {
+               let data1 = data.data;
+               displayChartTour(data1);
+           })
+           .catch((error) => {
+               console.error('Error:', error);
+               alert('Có lỗi xảy ra khi gọi API.');
+           });
+       }
 
-function displayChartTour(data) {
-    const dataPoints = [];
+       function displayChart(intervals, revenues) {
+           const dataPoints = [{ label: intervals[0], y: 0 }];
+           for (let i = 0; i < revenues.length; i++) {
+               dataPoints.push({ label: intervals[i + 1], y: revenues[i] });
+           }
+           const chart = new CanvasJS.Chart("chartDoanhthu", {
+               animationEnabled: true,
+               theme: "light2",
+               title: {
+                   text: "Doanh thu theo khoảng thời gian"
+               },
+               axisX: {
+                   title: "Khoảng thời gian"
+               },
+               axisY: {
+                   title: "Doanh thu (VNĐ)"
+               },
+               data: [{
+                   type: "line",
+                   dataPoints: dataPoints
+               }]
+           });
+           chart.render();
+       }
 
-    for (let i = 0; i < data.length; i++) {
-        dataPoints.push({
-            label: data[i][0],
-            y: data[i][2]
-        });
-    }
-
-    const chart = new CanvasJS.Chart("chartTour", {
-        animationEnabled: true,
-        theme: "light2",
-        title: {
-            text: "Top 5 tour"
-        },
-        axisX: {
-            title: "Tên tour"
-        },
-        axisY: {
-            title: "Số lượng booking"
-        },
-        data: [{
-            type: "column",
-            dataPoints: dataPoints
-        }]
-    });
-
-    chart.render();
-}
-
+       function displayChartTour(data) {
+           const dataPoints = [];
+           for (let i = 0; i < data.length; i++) {
+               dataPoints.push({ label: data[i][0], y: data[i][2] });
+           }
+           const chart = new CanvasJS.Chart("chartTour", {
+               animationEnabled: true,
+               theme: "light2",
+               title: {
+                   text: "Top 5 tour"
+               },
+               axisX: {
+                   title: "Tên tour"
+               },
+               axisY: {
+                   title: "Số lượng booking"
+               },
+               data: [{
+                   type: "column",
+                   dataPoints: dataPoints
+               }]
+           });
+           chart.render();
+       }
+   });
 
 </script>
 
