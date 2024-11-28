@@ -1,10 +1,16 @@
 package com.example.bookingtour.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "admins")
-public class Admin {
+public class Admin implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int admin_id;
@@ -71,5 +77,37 @@ public class Admin {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    // Phương thức của UserDetails
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Trả về quyền của Admin, sử dụng role để cấp quyền
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email; // Dùng email làm tên đăng nhập
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Nếu bạn muốn hỗ trợ hết hạn tài khoản, trả về false khi tài khoản hết hạn
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.status; // Kiểm tra trạng thái tài khoản, nếu bị khóa trả về false
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Nếu bạn muốn hỗ trợ hết hạn mật khẩu, trả về false khi mật khẩu hết hạn
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.status; // Kiểm tra xem tài khoản có đang hoạt động không
     }
 }

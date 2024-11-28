@@ -4,12 +4,16 @@ import com.example.bookingtour.entity.Admin;
 import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AdminService {
+public class AdminService implements UserDetailsService {
     @Autowired
     private AdminRepository adminRepository;
     public Admin findAdminByEmail(String email){
@@ -43,4 +47,24 @@ public class AdminService {
     public List<Admin> getAllAdmins(){
         return this.adminRepository.findAll();
     }
+
+
+    // SPRING SECURITY
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        // Trả về Optional<Admin> từ repository
+        Admin admin = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Admin not found with email: " + email));
+
+        if (!admin.isStatus()) {
+            throw new RuntimeException("Admin account is locked");
+        }
+
+        // Trả về đối tượng Admin, vì Admin đã implements UserDetails
+        return admin;
+    }
+
+
+
+
 }

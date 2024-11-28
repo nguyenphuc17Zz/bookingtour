@@ -1,5 +1,6 @@
 package com.example.bookingtour.controller.admin;
 
+import com.example.bookingtour.security.PasswordUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -18,7 +19,8 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private AdminService adminService;
-
+    @Autowired
+    private PasswordUtils passwordUtils;
     private Comparable<?> getPropertyValue(Admin admin, String propertyName) {
         if ("name".equals(propertyName)) {
             return admin.getAdmin_name(); // String
@@ -143,7 +145,7 @@ public class AdminController {
             errors.forEach((key, value) -> ra.addFlashAttribute("message", value));
             return "redirect:/admin/qtv/add";
         }
-        admin.setPassword("1");
+        admin.setPassword(passwordUtils.encodePassword("1"));
         adminService.save(admin);
         ra.addFlashAttribute("message", "Thêm mới admin thành công");
         return "redirect:/admin/qtv/add";

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 
@@ -37,5 +38,7 @@ public interface AdminRepository extends JpaRepository<Admin,Integer> {
             "OR LOWER(a.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
             "OR LOWER(a.role) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     public List<Admin> searchAdmins(@Param("searchTerm") String searchTerm);
+    // SPRING SECURITY
+    Optional<Admin> findByEmail(String email);
 
 }

@@ -55,6 +55,12 @@
                     <span th:text="${message}"></span>
                 </div>
 
+                <!--SECURITY -->
+                <div th:if="${param.error}">
+                    <p style="color: red;">Thông tin ko chính xác hoặc tài khoản đã bị khóa.</p>
+                </div>
+
+
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn">
                         Login

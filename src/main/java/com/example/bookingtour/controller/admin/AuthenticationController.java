@@ -6,6 +6,7 @@ import com.example.bookingtour.dto.LoginCustomerDto;
 import com.example.bookingtour.entity.Admin;
 import com.example.bookingtour.entity.Customer;
 import com.example.bookingtour.security.JWTUtil;
+import com.example.bookingtour.security.PasswordUtils;
 import com.example.bookingtour.service.AdminService;
 import com.example.bookingtour.service.CustomerService;
 import com.nimbusds.jose.JOSEException;
@@ -28,29 +29,38 @@ import java.util.Map;
 public class AuthenticationController {
     @Autowired
     private AdminService adminService;
-
+    @Autowired
+    private PasswordUtils passwordUtils;
     @GetMapping("/admin/login")
     public String showLoginPage(Model model) {
         model.addAttribute("admin", new Admin());
         return "admin/authentication/login";
     }
 
-    @PostMapping("/admin/login/send")
-    public String processLogin(@ModelAttribute("admin") Admin admin, RedirectAttributes ra, HttpServletResponse response) {
-        Admin admin1 = adminService.findAdminByEmail(admin.getEmail());
-        if (admin1 != null && admin1.getPassword().equals(admin.getPassword())) {
-            if (!admin1.isStatus()) {
-                ra.addFlashAttribute("message", "Tài khoản đã bị khóa!");
-                return "redirect:/admin/login"; // Chuyển hướng về trang đăng nhập
-            }
-            createCookie(response,"adminId", String.valueOf(admin1.getAdmin_id()));
-            createCookie(response,"role",admin1.getRole());
-            return "redirect:/admin/index";
-        } else {
-            ra.addFlashAttribute("message", "Thông tin đăng nhập không chính xác!");
-            return "redirect:/admin/login"; // Chuyển hướng về trang đăng nhập
-        }
-    }
+//    @PostMapping("/admin/login/send")
+//    public String processLogin(@ModelAttribute("admin") Admin admin, RedirectAttributes ra, HttpServletResponse response) {
+//        Admin admin1 = adminService.findAdminByEmail(admin.getEmail());
+//        if (admin1 != null && admin1.getPassword().equals(admin.getPassword())) {
+//            if (!admin1.isStatus()) {
+//                ra.addFlashAttribute("message", "Tài khoản đã bị khóa!");
+//                return "redirect:/admin/login"; // Chuyển hướng về trang đăng nhập
+//            }
+//            createCookie(response,"adminId", String.valueOf(admin1.getAdmin_id()));
+//            createCookie(response,"role",admin1.getRole());
+//            return "redirect:/admin/index";
+//        } else {
+//            ra.addFlashAttribute("message", "Thông tin đăng nhập không chính xác!");
+//            return "redirect:/admin/login"; // Chuyển hướng về trang đăng nhập
+//        }
+//    }
+
+    // XU LI LOGOUT
+//    @GetMapping("/admin/logout")
+//    public String processLogout(HttpServletRequest request, HttpServletResponse response, String name) {
+//        deleteCookie(request, response, "adminId");
+//        return "redirect:/admin/login";
+//    }
+
 
 
     @GetMapping("/admin/forgotpass")
@@ -68,10 +78,10 @@ public class AuthenticationController {
 
         if (admin1 != null) {
             if (forgotpass.getNewPassword().equals(forgotpass.getConfirmPassword())) {
-                admin1.setPassword(forgotpass.getNewPassword());
+                admin1.setPassword(passwordUtils.encodePassword(forgotpass.getNewPassword()));
                 adminService.updateAdmin(admin1);
                 model.addAttribute("message", "Mật khẩu đã được cập nhật thành công!");
-                return "admin/authentication/login";
+                return "redirect:/admin/login";
             } else {
                 ra.addFlashAttribute("message", "Mật khẩu không khớp!");
                 return "redirect:/admin/forgotpass"; // Chuyển hướng để giữ lại form
@@ -122,18 +132,14 @@ public class AuthenticationController {
         response.addCookie(cookie);
     }
 
-    // XU LI LOGOUT
-    @GetMapping("/admin/logout")
-    public String processLogout(HttpServletRequest request, HttpServletResponse response, String name) {
-        deleteCookie(request, response, "adminId");
-        return "redirect:/admin/login";
-    }
+
 
     // GO TO SETTING PROFILE
     @GetMapping("/admin/setting")
     public String showSettingPage(HttpServletRequest request, Model model) {
         Cookie cookie = getCookie(request, "adminId");
         Admin admin = adminService.findById(Integer.parseInt(cookie.getValue()));
+
         model.addAttribute("admin", admin);
         return "admin/authentication/setting";
     }
@@ -143,17 +149,11 @@ public class AuthenticationController {
         Cookie cookie = getCookie(request, "adminId");
         Admin currentAdmin = adminService.findById(Integer.parseInt(cookie.getValue()));
 
-        // Kiểm tra xem có thay đổi nào không
-        if (currentAdmin.getAdmin_name().equals(admin.getAdmin_name()) &&
-                currentAdmin.getEmail().equals(admin.getEmail()) &&
-                currentAdmin.getPassword().equals(admin.getPassword())) {
-            ra.addFlashAttribute("message", "Không có gì thay đổi");
-            return "redirect:/admin/setting";
-        } else {
+
             // Cập nhật thông tin admin
             System.out.println(admin.getAdmin_id());
             System.out.println(admin.getAdmin_name());
-            int updatedCount = this.adminService.updateAdminSetting(currentAdmin.getAdmin_id(), admin.getAdmin_name(), admin.getEmail(), admin.getPassword(), admin.getRole());
+            int updatedCount = this.adminService.updateAdminSetting(currentAdmin.getAdmin_id(), admin.getAdmin_name(), admin.getEmail(), passwordUtils.encodePassword(admin.getPassword()), admin.getRole());
 
             if (updatedCount > 0) {
                 ra.addFlashAttribute("message", "Chỉnh sửa thông tin thành công");
@@ -162,7 +162,7 @@ public class AuthenticationController {
             }
 
             return "redirect:/admin/setting";
-        }
+
     }
 
 

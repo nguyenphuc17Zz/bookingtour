@@ -28,11 +28,12 @@ function getCookie(name) {
     return null;
 }
 
-if (!getCookie("adminId")) {
-    window.location.href = "/admin/login";
-} else {
+//if (!getCookie("adminId")) {
+//    window.location.href = "/admin/login";
+//} else {
     hideSideBar();
-    const role = getCookie("role");
+    const role = getCookie("roles");
+    console.log(role);
     showSidebar(role);
     const currentUrl = window.location.href;
 
@@ -70,4 +71,4 @@ if (!getCookie("adminId")) {
     if (!hasAccess(role, currentUrl)) {
         window.location.href = "/admin/index";
     }
-}
+//}
