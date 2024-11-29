@@ -6,6 +6,7 @@ import jakarta.servlet.http.Cookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,7 +40,14 @@ public class SecurityConfig {
                 .authorizeRequests(auth -> auth
                         .requestMatchers("/admin/login", "/admin/login/send","/admin/forgotpass","/admin/forgotpass/send").permitAll() // Không cần đăng nhập cho những đường dẫn này
                         .requestMatchers("/admin/**").authenticated() // Cần đăng nhập cho các URL /admin/**
+
                 )
+
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .defaultSuccessUrl("/signingoogle", true)  // Chuyển hướng sau khi đăng nhập thành công
+                )
+
+
                 .formLogin(form -> form
                         .loginPage("/admin/login") // Trang đăng nhập tùy chỉnh
                         .loginProcessingUrl("/admin/login/send") // URL xử lý form đăng nhập

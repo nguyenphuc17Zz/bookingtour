@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const jwt = params.get('jwt');
+
+if (jwt) {
+    localStorage.setItem("jwtToken", jwt);
+    window.location.href = "/home";
+} else {
+    alert('Đăng nhập thất bại hoặc token không tồn tại.');
+}
+
+</script>
+</body>
+</html>

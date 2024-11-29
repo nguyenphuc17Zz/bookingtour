@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Đăng xuất
         document.getElementById("logoutBtn")?.addEventListener("click", function() {
             localStorage.removeItem("jwtToken");
-            window.location.href = "/login";
+            window.location.href = "/customer/login";
         });
     });
 

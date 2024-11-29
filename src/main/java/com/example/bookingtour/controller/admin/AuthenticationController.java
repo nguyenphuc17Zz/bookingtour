@@ -184,7 +184,7 @@ public class AuthenticationController {
     private CustomerService customerService;
 
 
-    @GetMapping("/register")
+    @GetMapping("/customer/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("customer", new CustomerRegisterDto());
         return "user/authentication/register";
@@ -219,7 +219,7 @@ public class AuthenticationController {
         return "redirect:/customer/login";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/customer/login")
     public String showLoginPageCus(Model model) {
         model.addAttribute("customer", new Customer());
         return "user/authentication/login";
@@ -240,6 +240,8 @@ public class AuthenticationController {
                 response.put("message", "Sai mật khẩu");
                 return ResponseEntity.badRequest().body(response);
             } else {
+
+
                 if (!cus.isStatus()) {
                     response.put("success", false);
                     response.put("message", "Tài khoản đã bị khóa");
@@ -264,12 +266,13 @@ public class AuthenticationController {
                     return ResponseEntity.badRequest().body(response);
                 }
 
+
             }
         }
     }
 
 
-    @GetMapping("/forgotpass")
+    @GetMapping("/customer/forgotpass")
     public String showForgotPassPageCus(Model model) {
         model.addAttribute("customer", new ForgotPassDto());
         return "user/authentication/forgotpass";

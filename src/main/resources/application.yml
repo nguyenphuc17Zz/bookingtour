@@ -1,0 +1,14 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 666617744038-laniivna8ttctttk11fl7tb87p1i0non.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - profile
+              - email
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"  # Đảm bảo URI này khớp với URI trong Google Developer Console
+            authorization-grant-type: authorization_code
+            client-name: Google
