@@ -80,6 +80,6 @@ public class VNPayController {
         notification.setSend_date(LocalDate.now());
         notificationService.saveNotification(notification);
 
-        return "redirect:/home";
+        return String.format("redirect:/history?id=%d", customerId);
     }
 }
